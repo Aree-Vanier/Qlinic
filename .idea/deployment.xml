@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="Dev">
+    <serverData>
+      <paths name="Dev">
+        <serverdata>
+          <mappings>
+            <mapping deploy="apache2" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="apache2" />
+            <excludedPath local="true" path="$USER_HOME$/PhpstormProjects/APSC103" />
+            <excludedPath local="true" path="$USER_HOME$/PhpstormProjects/APSC103" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

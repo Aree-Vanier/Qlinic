@@ -1,1 +1,11 @@
-Redirect / public/index.php
+ErrorDocument 404 /404
+
+
+RewriteEngine on
+###ERROR PAGES###
+RewriteRule ^404/?$ 404.php
+
+
+###General Redirects###
+RewriteRule ^/?$ public/index.php
+RewriteRule ^/?$ api/[QSA]
