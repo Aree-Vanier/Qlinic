@@ -8,20 +8,19 @@
 
 <body>
 <section>
-<?php
-include(HEADER);
+    <?php
+    include(HEADER);
 
-$var = "Hello World!";
+    $var = "Hello World!";
 
-echo "<h1>$var</h1>";
+    echo "<h1>$var</h1>";
 
-echo "This is a demonstration page";
-for($i=0;$i<100;$i++){
-    echo "<br/>";
-}
-?>
+    echo "This is a demonstration page";
+    for ($i = 0; $i < 100; $i++) {
+        echo "<br/>";
+    }
+    ?>
 </section>
 
-<?php include(END) ?>
 </body>
 </html>
