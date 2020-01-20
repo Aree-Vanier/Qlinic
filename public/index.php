@@ -7,6 +7,7 @@
 </head>
 
 <body>
+<section>
 <?php
 include(HEADER);
 
@@ -19,7 +20,7 @@ for($i=0;$i<100;$i++){
     echo "<br/>";
 }
 ?>
-
+</section>
 
 <?php include(END) ?>
 </body>
