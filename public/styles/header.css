@@ -1,0 +1,49 @@
+
+header {
+    width: 100%;
+    padding-top:1em;
+    padding-bottom:0.5em;
+    background-color:lightblue;
+    margin:0;
+}
+
+header h1 {
+    font-size: 3em;
+    margin:0.5em;
+}
+
+nav{
+    margin: 0 0 2em;
+    width:100%;
+    background-color:lightseagreen;
+    position: sticky;
+    top:0px;
+}
+
+nav ul{
+    margin:0;
+    list-style: none;
+    overflow:hidden;
+    padding:0;
+    margin-left:0.5em;
+}
+li.nav-item{
+    height:inherit;
+    font-size: 1.25em;
+    display:inline;
+    float:left;
+}
+li.nav-item.right{
+    float:right;
+}
+a.nav-link{
+    display:block;
+    padding:8px;
+    color:white;
+    text-decoration: none;
+    transition: all 250ms;
+}
+
+a.nav-link:hover{
+    background-color:seagreen;
+}

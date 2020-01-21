@@ -7,10 +7,10 @@
 </head>
 
 <body>
+<?php
+    include(HEADER); ?>
 <section>
     <?php
-    include(HEADER);
-
     $var = "Hello World!";
 
     echo "<h1>$var</h1>";

@@ -1,5 +1,6 @@
 <?php
 ?>
+<link rel="stylesheet" href="/styles/header.css">
 
 <header>
     <h1>Header</h1>
@@ -16,7 +17,7 @@
         <li class="nav-item">
             <a class="nav-link" href="#">Page 3</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item right">
             <a class="nav-link disabled" href="#">Page 4</a>
         </li>
     </ul>
