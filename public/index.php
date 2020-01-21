@@ -16,11 +16,11 @@
     echo "<h1>$var</h1>";
 
     echo "This is a demonstration page";
+    echo "</section>";
     for ($i = 0; $i < 100; $i++) {
         echo "<br/>";
     }
     ?>
-</section>
 
 </body>
 </html>
