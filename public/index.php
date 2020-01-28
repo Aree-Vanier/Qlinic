@@ -11,7 +11,7 @@
     include(HEADER); ?>
 <section>
     <?php
-    $var = "Hello World!";
+    $var = "Boomers in the BC government";
 
     echo "<h1>$var</h1>";
 
