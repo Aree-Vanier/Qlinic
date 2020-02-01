@@ -1,9 +1,8 @@
 
 header {
     width: 100%;
-    padding-top:1em;
-    padding-bottom:0.5em;
-    background-color:lightblue;
+    padding:0;
+    background-color:#4e71c2ff;
     margin:0;
 }
 
@@ -11,11 +10,19 @@ header h1 {
     font-size: 3em;
     margin:0.5em;
 }
+header .subtitle{
+    font-color:white;
+    float:right;
+}
+
+header img{
+    height:8em;
+}
 
 nav{
     margin: 0 0 2em;
     width:100%;
-    background-color:lightseagreen;
+    background-color:#3ac2a2ff;
     position: sticky;
     top:0px;
 }
@@ -44,7 +51,7 @@ a.nav-link{
 }
 
 a.nav-link:hover{
-    background-color:seagreen;
+    background-color:#00000022;
 }
 
 li.nav-item>form{

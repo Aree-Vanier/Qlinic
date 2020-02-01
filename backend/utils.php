@@ -13,7 +13,7 @@
     $username = "root";
     $password = "usbw";
 
-    $queue = new mysqli($serverName, $username, $password, "queue");
-    if($queue->connect_error){
-        echo("Connection Failed" . $queue->connect_error);
+    $conn = new mysqli($serverName, $username, $password, "queue");
+    if($conn->connect_error){
+        echo("Connection Failed" . $conn->connect_error);
     }

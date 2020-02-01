@@ -1,7 +1,7 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
-$stmt_getAll = $queue->prepare("SELECT * FROM queue.active");
-$stmt_getMax = $queue->prepare("SELECT MAX(position) FROM queue.active");
+$stmt_getAll = $conn->prepare("SELECT * FROM queue.active");
+$stmt_getMax = $conn->prepare("SELECT MAX(position) FROM queue.active");
 
 //Get the number of rows in the active queue (will be number of people in queue)
 function getQueueLength(){
