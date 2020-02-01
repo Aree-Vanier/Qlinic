@@ -9,11 +9,11 @@
     define("BACKEND", ROOT."/backend");
 
 
-    $serverName = "localhost";
-    $username = "root";
-    $password = "usbw";
+    $serverName = "qlinic.gregk.ca";
+    $username = "dev";
+    $password = "#Qlinic2020";
 
-    $conn = new mysqli($serverName, $username, $password, "queue");
+    $conn = new mysqli($serverName, $username, $password, "qlinic");
     if($conn->connect_error){
         echo("Connection Failed" . $conn->connect_error);
     }

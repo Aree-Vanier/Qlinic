@@ -1,7 +1,11 @@
 <?php
-include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
-$stmt_getAll = $conn->prepare("SELECT * FROM queue.active");
-$stmt_getMax = $conn->prepare("SELECT MAX(position) FROM queue.active");
+//include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
+$stmt_getAll = $conn->prepare("SELECT * FROM qlinic.queue");
+echo $conn->error;
+echo "<br/>";
+$stmt_getMax = $conn->prepare("SELECT MAX(position) FROM qlinic.queue");
+echo $conn->error;
+echo "<br/>";
 
 //Get the number of rows in the active queue (will be number of people in queue)
 function getQueueLength(){
