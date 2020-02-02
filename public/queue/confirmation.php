@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Landing Page</title>
+    <title>Queue Confirmation</title>
     <?php include(META) ?>
     <link rel="stylesheet" href="/styles/header.css">
 </head>

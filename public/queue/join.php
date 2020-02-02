@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Landing Page</title>
+    <title>Join Queue</title>
     <?php include(META) ?>
     <script>
         function formatNumber(target) {
