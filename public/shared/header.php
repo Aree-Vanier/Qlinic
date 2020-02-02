@@ -4,8 +4,6 @@
 
 <header>
     <img src="/images/logo.svg"></img>
-    <h3>The clinic queueing solution</h3>
-
 </header>
 <nav>
     <ul>

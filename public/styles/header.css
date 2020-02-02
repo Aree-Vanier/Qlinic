@@ -2,27 +2,38 @@
 header {
     width: 100%;
     padding:0;
-    background-color:#4e71c2ff;
+    background-color:#9eecff;
     margin:0;
+    transition:1s;
 }
 
 header h1 {
     font-size: 3em;
     margin:0.5em;
 }
+
 header .subtitle{
-    font-color:white;
+    color:white;
     float:right;
+    display:block;
+    margin-right:10%;
 }
 
 header img{
     height:8em;
+    display:block;
+}
+
+@media only screen and (max-width: 500px) {
+    header img{
+        margin:auto;
+    }
 }
 
 nav{
     margin: 0 0 2em;
     width:100%;
-    background-color:#3ac2a2ff;
+    background-color:#4e71c2;
     position: sticky;
     top:0px;
 }
@@ -30,7 +41,8 @@ nav{
 nav ul{
     margin:0 0.5em;
     list-style: none;
-    overflow:hidden;
+    overflow-y:hidden;
+    overflow-x: visible;
     padding:0;
 }
 li.nav-item{
