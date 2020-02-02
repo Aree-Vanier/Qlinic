@@ -4,7 +4,7 @@ header {
     padding:0;
     background-color:#9eecff;
     margin:0;
-    transition:1s;
+    overflow:auto;
 }
 
 header h1 {
