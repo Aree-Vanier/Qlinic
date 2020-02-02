@@ -9,10 +9,35 @@ section{
     margin: 1em 2.5%;
     padding:1em 2.5%;
     background-color:whitesmoke;
+    margin-bottom:3em;
+}
+
+section h1{
+    margin-left:0.5em;
 }
 
 @media only screen and (max-width: 500px) {
     section{
         margin:0.5em 0;
+        margin-bottom:3em;
     }
+}
+
+input{
+    border:none;
+    padding:2px;
+    font-size:1em;
+}
+
+input[type=submit] {
+    padding:5px 1em;
+    background-color:#3ba1c1;
+    color:white;
+    transition:color 0.5s;
+    font-size:1.25em;
+    margin-top:1em;
+    margin-left:1em;
+}
+input[type=submit]:hover {
+    background-color:#358aa4;
 }
