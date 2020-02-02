@@ -41,3 +41,53 @@ input[type=submit] {
 input[type=submit]:hover {
     background-color:#358aa4;
 }
+
+select{
+    border:none;
+    padding:5px;
+}
+
+.scroller{
+    background-color:white;
+    width:100%;
+    border: 1px solid;
+    height:6em;
+    overflow-y:scroll;
+    font-size:15px;
+}
+
+.scroller::-webkit-scrollbar{
+    width:10px;
+    float:right;
+}
+.scroller::-webkit-scrollbar-thumb{
+    width:10px;
+    background-color:lightgray;
+    border-radius: 5px;
+}
+
+.scroller .scrollItem{
+    padding:5px 0.5em;
+    height: 2em;
+    border-bottom:1px solid;
+    cursor:pointer;
+    transition: color 1s;
+}
+
+.scroller .scrollItem.selected{
+    background-color:#9eecff;
+}
+
+.scroller .scrollItem:hover{
+    background-color:#6bbad5;
+}
+
+
+.scrollItem .scrollTitle{
+    clear:none;
+}
+
+.scrollItem .scrollInfo{
+    float:right;
+}
+
