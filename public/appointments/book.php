@@ -45,27 +45,28 @@
                 <td>Time</td>
                 <td>
                     <div class="scroller">
-                        <div class="scrollItem">
+                        <input class="scrollerInput" name="time" type="hidden" value="">
+                        <div class="scrollItem" id="1100">
                             <span class="scrollTitle">11:00</span>
                             <span class="scrollInfo">2 remaining</span><br/>
 <!--                            <span class="scrollTitle">Subtitle</span>-->
                         </div>
-                        <div class="scrollItem selected">
+                        <div class="scrollItem selected" id="1130">
                             <span class="scrollTitle">11:30</span>
                             <span class="scrollInfo">3 remaining</span><br/>
 <!--                            <span class="scrollTitle">Subtitle</span>-->
                         </div>
-                        <div class="scrollItem">
+                        <div class="scrollItem" id="1200">
                             <span class="scrollTitle">12:00</span>
                             <span class="scrollInfo">1 remaining</span><br/>
 <!--                            <span class="scrollTitle">Time 1</span>-->
                         </div>
-                        <div class="scrollItem">
+                        <div class="scrollItem" id="1230">
                             <span class="scrollTitle">12:30</span>
                             <span class="scrollInfo">2 remaining</span><br/>
 <!--                            <span class="scrollTitle">Time 1</span>-->
                         </div>
-                        <div class="scrollItem">
+                        <div class="scrollItem" id="1300">
                             <span class="scrollTitle">1:00</span>
                             <span class="scrollInfo">2 remaining</span><br/>
 <!--                            <span class="scrollTitle">Time 1</span>-->
