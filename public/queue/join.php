@@ -4,7 +4,26 @@
 <head>
     <title>Landing Page</title>
     <?php include(META) ?>
-
+    <script>
+        function formatNumber(target) {
+            let num = target.value;
+            //Limit number length
+            if(num.length > 12){
+                num = num.substr(0, 12);
+            }
+            //Remove existing dashes
+            num = num.replace(/-/g, "");
+            //Add new dashes
+            num = num.replace(/^([0-9]{3})/, "$1-");
+            num = num.replace(/^([0-9]{3}-[0-9]{3})/, "$1-");
+            //Remove trailing dash
+            if(num.endsWith("-")){
+                num = num.substr(0, num.length-1)
+            }
+            //Update value
+            target.value = num;
+        }
+    </script>
 </head>
 
 <body>
@@ -31,7 +50,7 @@ include(HEADER); ?>
             </tr>
             <tr>
                 <td>Phone #</td>
-                <td><input id="phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" oninput="formatNumber(this)"/>
+                <td><input id="phone" type="tel" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" oninput="formatNumber(this)"/>
                 </td>
             </tr>
         </table>
