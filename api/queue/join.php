@@ -1,4 +1,5 @@
 <?php
+$headless = true;
 include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
 include (BACKEND."/queue.php");
 

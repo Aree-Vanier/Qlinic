@@ -5,6 +5,28 @@
     <title>Join Queue</title>
     <?php include(META) ?>
     <script src="/scripts/forms.js"></script>
+    <script>
+        let xhttp = new XMLHttpRequest();
+        function onSubmit(){
+            console.log("Submitting");
+            let name = encodeURIComponent(document.getElementById("name").value);
+            let email = encodeURIComponent(document.getElementById("email").value);
+            let phone = encodeURIComponent(document.getElementById("phone").value);
+
+            $.post("/api/queue/join", {name:name, email:email, phone:phone}, function (data, status) {
+                if(status === "success"){
+                    if(data.startsWith("SUCCESS")){
+                        let code = data.split(":")[1];
+                        console.log(code);
+                        window.location.replace("/queue/confirmation?q="+code);
+                    } else {
+                        console.log(data);
+                    }
+                }
+            });
+            return false;
+        }
+    </script>
 </head>
 
 <body>
@@ -19,7 +41,7 @@ include(HEADER); ?>
 </section>
 <section>
     <h1>Join Queue</h1>
-    <form>
+    <form onsubmit="return onSubmit()">
         <table>
             <tr>
                 <td>Name</td>

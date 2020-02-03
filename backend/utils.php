@@ -1,6 +1,9 @@
-<!-- JQuery -->
-<script src="/public/scripts/jquery.js"></script>
 <?php
+    if(!isset($headless) || $headless == false){
+        echo "<!-- JQuery -->\n<script src=\"/public/scripts/jquery.js\"></script>";
+
+    }
+
     define("ROOT", $_SERVER["DOCUMENT_ROOT"]);
     define("FILES", ROOT."/public");
     define("SHARED", FILES."/shared");
