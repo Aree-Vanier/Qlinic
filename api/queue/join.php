@@ -26,8 +26,10 @@ if($stmt->num_rows != 0){
 }
 $stmt->free_result();
 
-if(addToQueue($name, $email, $phone, $transacID)){
-    echo "SUCCESS";
+$pos = null;
+$code = null;
+if(addToQueue($name, $email, $phone, $transacID, $pos, $code)){
+    echo "SUCCESS:".$pos."-".$code;
 } else {
     echo "ERROR:UNKOWN";
 }

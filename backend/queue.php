@@ -53,14 +53,24 @@ function getNextServed(){
  * @param $name string The associated name
  * @param $email string The associated email address
  * @param $phone string The associated phone number
+ * @param $transac string Unique transaction ID, used to prevent duplicates
+ * @param $pos int Optional reference parameter, will contain position in queue if successful or -1 if not
+ * @param $code string Optional reference parameter, will contain the unique code to accompany the entry, and the error if unsuccessful
  * @return bool true if added successfully
  */
-function addToQueue($name, $email, $phone, $transac){
+function addToQueue($name, $email, $phone, $transac, &$pos=-1, &$code=''){
     global $stmt_add;
     $pos = getNextAvailable();
     $UUID = substr(preg_replace("/[\.\/]/", "",password_hash($name, CRYPT_MD5)), 7,5);
     $UUID = strtoupper($UUID);
     $stmt_add->bind_param("isssss", $pos, $UUID,$name, $email, $phone, $transac);
     $stmt_add->execute();
-    return $stmt_add->error == "";
+    if($stmt_add->error == ""){
+        $code = $UUID;
+        return true;
+    } else {
+        $pos = -1;
+        $code = $stmt_add->error;
+        return false;
+    }
 }
