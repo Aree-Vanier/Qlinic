@@ -49,6 +49,23 @@ function getNextServed(){
 }
 
 /**
+ * Get the entry with at the specified position
+ * @param $position int The position to get
+ * @return array Row in specified position
+*/
+function getEntry($position){
+    global $stmt_getEntry;
+    $stmt_getEntry->bind_param("i", $position);
+    $stmt_getEntry->execute();
+//    $stmt_getEntry->bind_result($result);
+//    $stmt_getEntry->fetch();
+    $result = $stmt_getEntry->get_result()->fetch_assoc();
+    $stmt_getEntry->free_result();
+    return $result;
+}
+
+
+/**
  * Add an entry to the queue
  * @param $name string The associated name
  * @param $email string The associated email address
