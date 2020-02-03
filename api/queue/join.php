@@ -2,14 +2,10 @@
 include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
 include (BACKEND."/queue.php");
 
-echo ("API to join queue<br/>");
-echo ("There are ".getQueueLength()." people in queue<br/>");
-echo ("The next available number is ".getNextAvailable()."<br/>");
-
 $missing = [];
 if(!checkPost(["name", "email", "phone"], $missing)){
-    echo "Missing values: ".join(",",$missing);
-    exit();
+    echo "ERROR:Missing args: ".join(",",$missing);
+    exit(0);
 }
 $name = $_POST["name"];
 $email = $_POST["email"];
@@ -25,13 +21,13 @@ $stmt->bind_param("s", $transacID);
 $stmt->execute();
 $stmt->store_result();
 if($stmt->num_rows != 0){
-    echo "Transaction already processed";
+    echo "ERROR:DUPLICATE";
     exit(0);
 }
 $stmt->free_result();
 
 if(addToQueue($name, $email, $phone, $transacID)){
-    echo "Added successfully";
+    echo "SUCCESS";
 } else {
-    echo "ERROR";
+    echo "ERROR:UNKOWN";
 }
