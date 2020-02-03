@@ -19,7 +19,7 @@
                     if(data.startsWith("SUCCESS")){
                         let code = data.split(":")[1];
                         console.log(code);
-                        window.location.replace("/queue/confirmation?q="+code);
+                        window.location.replace("/queue/confirmation/"+code);
                     } else {
                         console.log(data);
                     }
