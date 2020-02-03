@@ -1,4 +1,5 @@
 <?php
+include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 //include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
 $stmt_getAll = $conn->prepare("SELECT * FROM qlinic.queue");
 $stmt_getMax = $conn->prepare("SELECT MAX(position) FROM qlinic.queue");
@@ -21,6 +22,7 @@ function getQueueLength(){
 
 /**
  * Get the number of people in queue
+ * @param $position int
  * @return int The number of rows in the queue
  * */
 function getBefore($position){
@@ -30,6 +32,19 @@ function getBefore($position){
     $stmt_getBefore->store_result();
     $rows = $stmt_getBefore->num_rows;
     return $rows;
+}
+
+/**
+ * Get the wait time for a new client
+ * @param $position int Optional argument to specify target position
+ * @return int The time in seconds
+*/
+function getTime($position = -1){
+    global $waitTime;
+    if($position == -1)
+        return getQueueLength()*$waitTime;
+    else
+        return getBefore($position)*$waitTime;
 }
 
 /**

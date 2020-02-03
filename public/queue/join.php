@@ -36,7 +36,7 @@ include(HEADER); ?>
 <section>
     <div style="text-align: center;">
         <h2>Estimated Wait Time</h2>
-        <h1 style="font-size: 5em; margin:0">1:00</h1>
+        <h1 style="font-size: 5em; margin:0"><?php echo gmdate("H:i", getTime()) ?></h1>
         <h3><?php echo(getQueueLength())?> people in queue</h3>
     </div>
 </section>

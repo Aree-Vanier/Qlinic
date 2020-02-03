@@ -30,7 +30,7 @@
 
     <section style="text-align: center;">
         <h2>Estimated wait</h2>
-        <h1 style="font-size: 5em; margin:0">1:45</h1>
+        <h1 style="font-size: 5em; margin:0"><?php echo gmdate("H:i", getTime($data["position"]))?></h1>
         <h2><?php echo getBefore($data["position"]) ?> People ahead of you</h2>
     </section>
 </body>

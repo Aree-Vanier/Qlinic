@@ -11,6 +11,7 @@
     define("META", SHARED."/meta.html");
     define("BACKEND", ROOT."/backend");
 
+    include(BACKEND."/config.php");
 
     $serverName = "qlinic.gregk.ca";
     $username = "dev";
