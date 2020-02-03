@@ -5,6 +5,7 @@ $stmt_getMax = $conn->prepare("SELECT MAX(position) FROM qlinic.queue");
 $stmt_getMin = $conn->prepare("SELECT MIN(position) FROM qlinic.queue");
 $stmt_add = $conn->prepare("INSERT INTO qlinic.queue (position, UUID, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
 $stmt_getEntry = $conn->prepare("SELECT * FROM qlinic.queue WHERE position=?");
+$stmt_getBefore = $conn->prepare("SELECT * FROM qlinic.queue WHERE position<?");
 
 /**
  * Get the number of people in queue
@@ -15,6 +16,19 @@ function getQueueLength(){
     $stmt_getAll->execute();
     $stmt_getAll->store_result();
     $rows = $stmt_getAll->num_rows;
+    return $rows;
+}
+
+/**
+ * Get the number of people in queue
+ * @return int The number of rows in the queue
+ * */
+function getBefore($position){
+    global $stmt_getBefore;
+    $stmt_getBefore->bind_param("i" ,$position);
+    $stmt_getBefore->execute();
+    $stmt_getBefore->store_result();
+    $rows = $stmt_getBefore->num_rows;
     return $rows;
 }
 

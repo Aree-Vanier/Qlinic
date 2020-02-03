@@ -4,6 +4,7 @@
 <head>
     <title>Join Queue</title>
     <?php include(META) ?>
+    <?php include(BACKEND."/queue.php")?>
     <script src="/scripts/forms.js"></script>
     <script>
         let xhttp = new XMLHttpRequest();
@@ -36,7 +37,7 @@ include(HEADER); ?>
     <div style="text-align: center;">
         <h2>Estimated Wait Time</h2>
         <h1 style="font-size: 5em; margin:0">1:00</h1>
-        <h3>30 people in queue</h3>
+        <h3><?php echo(getQueueLength())?> people in queue</h3>
     </div>
 </section>
 <section>
