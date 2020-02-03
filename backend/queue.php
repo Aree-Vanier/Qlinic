@@ -4,7 +4,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 $stmt_getAll = $conn->prepare("SELECT * FROM qlinic.queue");
 $stmt_getMax = $conn->prepare("SELECT MAX(position) FROM qlinic.queue");
 $stmt_getMin = $conn->prepare("SELECT MIN(position) FROM qlinic.queue");
-$stmt_add = $conn->prepare("INSERT INTO qlinic.queue (position, UUID, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
+$stmt_add = $conn->prepare("INSERT INTO qlinic.queue (position, code, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
 $stmt_getEntry = $conn->prepare("SELECT * FROM qlinic.queue WHERE position=?");
 $stmt_getBefore = $conn->prepare("SELECT * FROM qlinic.queue WHERE position<?");
 

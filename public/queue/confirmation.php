@@ -10,7 +10,7 @@
         $req = explode("-", $_GET["q"]);
         $data = getEntry($req[0]);
         //Don't allow false identifications
-        if($req[1] != $data["UUID"]){
+        if($req[1] != $data["code"]){
             echo ("Invalid code");
             exit();
         }
@@ -25,7 +25,7 @@
     <section style="text-align: center;">
         <h2>Your number</h2>
         <h1 style="font-size: 5em; margin:0"><?php echo $data["position"]?></h1>
-        <h2>Code: <?php echo $data["UUID"]?></h2>
+        <h2>Code: <?php echo $data["code"]?></h2>
     </section>
 
     <section style="text-align: center;">
