@@ -3,7 +3,7 @@
 $stmt_getAll = $conn->prepare("SELECT * FROM qlinic.queue");
 $stmt_getMax = $conn->prepare("SELECT MAX(position) FROM qlinic.queue");
 $stmt_getMin = $conn->prepare("SELECT MIN(position) FROM qlinic.queue");
-$stmt_add = $conn->prepare("INSERT INTO qlinic.queue (position, UUID, name, email, phone) VALUES (?,?,?,?,?)");
+$stmt_add = $conn->prepare("INSERT INTO qlinic.queue (position, UUID, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
 $stmt_getEntry = $conn->prepare("SELECT * FROM qlinic.queue WHERE position=?");
 
 /**
@@ -55,12 +55,12 @@ function getNextServed(){
  * @param $phone string The associated phone number
  * @return bool true if added successfully
  */
-function addToQueue($name, $email, $phone){
+function addToQueue($name, $email, $phone, $transac){
     global $stmt_add;
     $pos = getNextAvailable();
     $UUID = substr(preg_replace("/[\.\/]/", "",password_hash($name, CRYPT_MD5)), 7,5);
     $UUID = strtoupper($UUID);
-    $stmt_add->bind_param("issss", $pos, $UUID,$name, $email, $phone);
+    $stmt_add->bind_param("isssss", $pos, $UUID,$name, $email, $phone, $transac);
     $stmt_add->execute();
     return $stmt_add->error == "";
 }
