@@ -7,6 +7,10 @@ $stmt_getMin = $conn->prepare("SELECT MIN(position) FROM qlinic.queue");
 $stmt_add = $conn->prepare("INSERT INTO qlinic.queue (position, code, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
 $stmt_getEntry = $conn->prepare("SELECT * FROM qlinic.queue WHERE position=?");
 $stmt_getBefore = $conn->prepare("SELECT * FROM qlinic.queue WHERE position<?");
+$stmt_remove = $conn->prepare("DELETE FROM qlinic.queue WHERE position=? AND code=?");
+$stmt_archive = $conn->prepare("INSERT INTO qlinic.archive (joined, processed, wait, delta) VALUES (from_unixtime(?),from_unixtime(?),?,?)");
+echo $stmt_archive->error;
+$stmt_getLatestArchive = $conn->prepare("SELECT * FROM qlinic.archive ORDER BY processed DESC limit 1");
 
 /**
  * Get the number of people in queue
@@ -119,4 +123,46 @@ function addToQueue($name, $email, $phone, $transac, &$pos=-1, &$code=''){
         $code = $stmt_add->error;
         return false;
     }
+}
+
+/**
+ * Get the latest entry archived
+ * @return array The latest row archived
+ */
+function getLastArchived(){
+    global $stmt_getLatestArchive;
+    $stmt_getLatestArchive->execute();
+    $result = $stmt_getLatestArchive->get_result()->fetch_assoc();
+    $stmt_getLatestArchive->free_result();
+    return $result;
+}
+
+/**
+ * Remove the entry from the queue. This requires position and code for security
+ * @param $position int The position in queue
+ * @param $code int The accompanying code
+*/
+function delete($position, $code){
+    global $stmt_remove;
+    $stmt_remove->bind_param("is", $position, $code);
+    $stmt_remove->execute();
+}
+
+/**
+ * Remove the person at the top of the queue, and add them to the archive
+*/
+function removeFromQueue(){
+    global $stmt_archive;
+    $data = getEntry(getNextServed());
+    $currentTime = time();
+    $joinTime = strtotime($data["time"]);
+    $waitTime = $currentTime-$joinTime;
+    $prev = getLastArchived();
+    echo $currentTime."--".strtotime($prev["processed"])."<br/>";
+    $betweenTime = $currentTime-strtotime($prev["processed"]);
+    echo $currentTime."<br/>".$joinTime."<br/>".$waitTime."<br/>".$betweenTime;
+    $stmt_archive->bind_param("iiii",$joinTime, $currentTime, $waitTime, $betweenTime);
+//    $stmt_archive->execute();
+    echo "ERROR: ".$stmt_archive->error;
+//    delete($data["position"], $data["code"]);
 }
