@@ -16,15 +16,16 @@ header img{
 
 section#queue{
     float:left;
-    width:500px;
+    width:30%;
     margin-top:3em;
     margin-left:1em;
+    min-width: 255px;
+    max-width: 400px;
 }
 
 .scroller{
     height:50em;
-    width:50%;
-    display:inline-block;
+    width:100%;
 }
 .scrollInfo.position{
     font-size:2em;
@@ -44,12 +45,17 @@ section#queue{
 }
 
 #queue #buttons{
-    display:inline-block;
-    width:40%;
-    float:right;
+    width:100%;
     text-align: center;
 }
 
-#queue #buttons button{
+#queue button{
     width:100%;
+    margin:4px 0;
+}
+
+#queue #buttons button{
+    display:inline-block;
+    width:45%;
+    clear:both;
 }

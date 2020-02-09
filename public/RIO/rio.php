@@ -15,6 +15,7 @@
 </header>
 <section id="queue">
     <h1>Queue</h1>
+    <button>Serve Next</button><br/>
     <div class="scroller">
         <input class="scrollerInput" name="time" type="hidden" value="">
         <div class="scrollItem current" id="1100">
@@ -105,8 +106,7 @@
         </div>
     </div>
     <div id="buttons">
-        <button>Serve Next</button><br/>
-        <button>Add to queue</button><br/>
+        <button>Add to queue</button>
         <button>Remove from queue</button>
     </div>
 
