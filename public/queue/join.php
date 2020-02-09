@@ -46,7 +46,7 @@ include(HEADER); ?>
         <table>
             <tr>
                 <td>Name</td>
-                <td><input id="name" type="text" placeholder="name" required/></td>
+                <td><input id="name" type="text" placeholder="John Doe" required/></td>
             </tr>
             <tr>
                 <td>Email</td>

@@ -91,3 +91,16 @@ select{
     float:right;
 }
 
+button{
+    border:none;
+    font-size:1em;
+    background-color:#4e71c2;
+    color:white;
+    padding:0.5em 1em;
+    margin:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#3657a2ff;
+}
