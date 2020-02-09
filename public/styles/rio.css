@@ -1,0 +1,61 @@
+header{
+    float:right;
+    display:block;
+    overflow:hidden;
+    font-size: 1.5em;
+    position: absolute;
+    top:0;
+    right:0;
+}
+
+header img{
+    float:right;
+    height:5em;
+    width:auto;
+}
+
+section#queue{
+    float:left;
+    width:30%;
+    margin-top:3em;
+    margin-left:1em;
+    min-width: 255px;
+    max-width: 400px;
+}
+
+.scroller{
+    height:50em;
+    width:100%;
+}
+.scrollInfo.position{
+    font-size:2em;
+}
+.scrollItem:hover{
+    background-color: #cfcfcfff!important;
+}
+.scrollItem.current{
+    position:sticky;
+    background:#6bbad5ff !important;
+    top:0;
+}
+.scrollItem.next{
+    position:sticky;
+    background:#9eecffff !important;
+    top:41px;
+}
+
+#queue #buttons{
+    width:100%;
+    text-align: center;
+}
+
+#queue button{
+    width:100%;
+    margin:4px 0;
+}
+
+#queue #buttons button{
+    display:inline-block;
+    width:45%;
+    clear:both;
+}
