@@ -3,7 +3,7 @@ header{
     display:block;
     overflow:hidden;
     font-size: 1.5em;
-    position: fixed;
+    position: absolute;
     top:0;
     right:0;
 }
