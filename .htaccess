@@ -10,3 +10,10 @@ RewriteRule ^404/?$ 404.php
 RewriteCond %{REQUEST_URI} !^/public.*
 RewriteCond %{REQUEST_URI} !^/api.*
 RewriteRule ^(.*)$ public/$1 [QSA,L]
+
+RewriteRule queue/confirmation/(.*)$ /public/queue/confirmation.php?q=$1
+
+####Add .php###
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/public/$
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
