@@ -1,10 +1,16 @@
+body{
+    min-width: 1400px;
+    min-height:1000px;
+    position:relative;
+}
+
 header{
     float:right;
     display:block;
     overflow:hidden;
     font-size: 1.5em;
     position: absolute;
-    top:0;
+    top:-32px;
     right:0;
 }
 
@@ -15,12 +21,13 @@ header img{
 }
 
 section#queue{
-    float:left;
+    /*float:left;*/
     width:30%;
-    margin-top:3em;
-    margin-left:1em;
+    /*margin-top:3em;*/
+    margin-left:3%;
     min-width: 255px;
     max-width: 400px;
+    display:inline-block;
 }
 
 .scroller{
@@ -58,4 +65,57 @@ section#queue{
     display:inline-block;
     width:45%;
     clear:both;
+}
+
+#container{
+    width:100%;
+    height:-webkit-fill-available;
+    /*overflow-y: hidden;*/
+    margin-top:2em;
+}
+
+section#appointments{
+    float:right;
+    margin-top:8em;
+    margin-right:3%;
+    height:792px;
+    display:inline-block;
+    width:57%;
+}
+
+.agenda{
+    margin-top:2em;
+    width: 25%;
+    background-color: white;
+    height:40em;
+    float:left;
+    border: 1px solid black;
+    overflow:visible;
+}
+
+.agenda h2{
+    margin:0;
+    margin-top:-1.1em;
+    position:relative;
+}
+
+.agenda>.scroller{
+    height:100%;
+    width: 100%;
+    margin:0;
+    border:none;
+}
+
+.calendar{
+    margin-top:2em;
+    width:73%;
+    height:35em;
+    float:right;
+    background-color:white;
+    border:1px solid black;
+}
+
+.calendar h2{
+    margin:0;
+    margin-top:-1.1em;
 }
