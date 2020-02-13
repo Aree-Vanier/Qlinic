@@ -6,6 +6,7 @@
     <?php include(META) ?>
     <link rel="stylesheet" type="text/css" href="/public/styles/rio.css"/>
     <script src="/public/scripts/scroller.js"></script>
+
 </head>
 
 <body>
