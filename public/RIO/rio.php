@@ -133,12 +133,14 @@
     </section>
     <section id="appointments">
         <div>
-            <h1>Appointments</h1>
-            <button>Book Appointment</button>
-            <button>Find Appointment</button>
+            <h1 style="margin-bottom:0">Appointments</h1>
+            <div style="margin:0.25em 0">
+                <button>Book</button>
+                <button>Find</button>
+            </div>
         </div>
         <div class="agenda">
-            <h2>Today's Appointments</h2>
+            <h2>Today</h2>
             <div class="scroller">
 
             </div>
