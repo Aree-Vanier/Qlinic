@@ -17,7 +17,7 @@
         <table>
             <tr>
                 <td>Name</td>
-                <td><input id="name" type="text" placeholder="name" required/></td>
+                <td><input id="name" type="text" placeholder="John Doe" required/></td>
             </tr>
             <tr>
                 <td>Email</td>
@@ -29,6 +29,7 @@
                            oninput="formatNumber(this)"/>
                 </td>
             </tr>
+			<tr><td><br/></td></tr>
             <tr>
                 <td>Date</td>
                 <td>
@@ -38,6 +39,15 @@
                         <option value="2">Tuesday 04</option>
                         <option value="3">Wednesday 05</option>
                         <option value="4">Thursday 06</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Doctor</td>
+                <td>
+                    <select>
+                        <option value="0">Dr. Brown</option>
+                        <option value="1">Dr. Flowers</option>
                     </select>
                 </td>
             </tr>
@@ -74,6 +84,7 @@
                     </div>
                 </td>
             </tr>
+			<tr><td><br/></td></tr>
             <tr>
                 <td>Reason</td>
                 <td><input type="text" id="reason" placeholder="Reason"></td>
@@ -83,7 +94,7 @@
 
         </div>
 
-        <input type="submit" value="Join">
+        <input type="submit" value="Book">
     </form>
 </section>
 

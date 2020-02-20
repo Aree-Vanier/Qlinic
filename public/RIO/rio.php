@@ -21,13 +21,18 @@
         <br/>
         <div class="scroller">
             <input class="scrollerInput" name="time" type="hidden" value="">
-            <div class="scrollItem current" id="">
+            <div class="scrollItem" id="">
                 <span class="scrollTitle">Gavin Estevez</span>
                 <span class="scrollInfo position">#16</span><br/>
                 <span class="scrollTitle">OJCPL</span>
             </div>
+            <div class="scrollItem current" id="">
+                <span class="scrollTitle">Gavin Estevez&nbsp;&nbsp;(NOW SERVING)</span>
+                <span class="scrollInfo position">#16</span><br/>
+                <span class="scrollTitle">OJCPL</span>
+            </div>
             <div class="scrollItem next" id="">
-                <span class="scrollTitle">Ned Everette</span>
+                <span class="scrollTitle">Ned Everette&nbsp;&nbsp;(NEXT)</span>
                 <span class="scrollInfo position">#17</span><br/>
                 <span class="scrollTitle">QFAUF</span>
             </div>
@@ -128,12 +133,60 @@
         <div class="agenda">
             <h2>Today</h2>
             <div class="scroller">
-
+                <div class="scrollItem" id="">
+                    <span class="scrollTitle">Robert Alberts</span>
+                    <span class="scrollInfo">10:30</span><br/>
+                    <span class="scrollTitle">CJZFM</span>
+                    <span class="scrollInfo">Dr. Brown</span>
+                </div>
+                <div class="scrollItem" id="">
+                    <span class="scrollTitle">Nancy Kennelly</span>
+                    <span class="scrollInfo">10:30</span><br/>
+                    <span class="scrollTitle">XBGFZ</span>
+                    <span class="scrollInfo">Dr. Jones</span>
+                </div>
+                <div class="scrollItem" id="">
+                    <span class="scrollTitle">Roger Libby</span>
+                    <span class="scrollInfo">11:00</span><br/>
+                    <span class="scrollTitle">HSOLK</span>
+                    <span class="scrollInfo">Dr. Jones</span>
+                </div>
+                <div class="scrollItem" id="">
+                    <span class="scrollTitle">Elias Trent</span>
+                    <span class="scrollInfo">11:30</span><br/>
+                    <span class="scrollTitle">VVVGV</span>
+                    <span class="scrollInfo">Dr. Brown</span>
+                </div>
+                <div class="scrollItem" id="">
+                    <span class="scrollTitle">Alice Grant</span>
+                    <span class="scrollInfo">12:00</span><br/>
+                    <span class="scrollTitle">KXPEF</span>
+                    <span class="scrollInfo">Dr. Brown</span>
+                </div>
+                <div class="scrollItem" id="">
+                    <span class="scrollTitle">Athur Jones</span>
+                    <span class="scrollInfo">12:00</span><br/>
+                    <span class="scrollTitle">UXLEB</span>
+                    <span class="scrollInfo">Dr. Jones</span>
+                </div>
             </div>
         </div>
         <div class="calendar">
-            <h2>Two Weeks</h2>
-
+            <h2>This Month</h2>
+            <div class="week">
+                <div class="day">17-Mon</div>
+                <div class="day">18-Tue</div>
+                <div class="day">19-Wed</div>
+                <div class="day">20-Thu</div>
+                <div class="day">21-Fri</div>
+            </div>
+            <div class="week">
+                <div class="day">24-Mon</div>
+                <div class="day">25-Tue</div>
+                <div class="day">26-Wed</div>
+                <div class="day">27-Thu</div>
+                <div class="day">28-Fri</div>
+            </div>
         </div>
     </section>
 </div>

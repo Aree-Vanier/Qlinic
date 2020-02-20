@@ -17,10 +17,10 @@
     $username = "dev";
     $password = "#Qlinic2020";
 
-    $conn = new mysqli($serverName, $username, $password, "qlinic");
-    if($conn->connect_error){
-        echo("Connection Failed" . $conn->connect_error);
-    }
+//    $conn = new mysqli($serverName, $username, $password, "qlinic");
+//    if($conn->connect_error){
+//        echo("Connection Failed" . $conn->connect_error);
+//    }
 
     /**
      * Check that passed values exist in the POST statement
