@@ -7,7 +7,20 @@
     <?php include(BACKEND . "/queue.php") ?>
     <link rel="stylesheet" type="text/css" href="/public/styles/rio.css"/>
     <script src="/public/scripts/scroller.js"></script>
+    <script>
+        function updateQueue(result) {
+            $.ajax({
+                url: "/RIO/rio", success: function () {
+                    console.log("Updated");
+                    var newer = new DOMParser().parseFromString(result, "text/html");
+                    document.getElementById("queueScroller").innerHTML = newer.getElementById("queueScroller").innerHTML;
+                }
+            });
+        }
 
+        setInterval(updateQueue, 30000);
+
+    </script>
 </head>
 
 <body>
@@ -20,18 +33,18 @@
         <h1>Queue</h1>
         <button>Serve Next</button>
         <br/>
-        <div class="scroller">
+        <div class="scroller" id="queueScroller">
             <input class="scrollerInput" name="time" type="hidden" value="">
             <?php
             $queue = getFullQueue();
             $idx = 0;
             foreach ($queue as $client) {
-                $class = $idx==0?"current":($idx==1?"next":"");
-                $follow = $idx==0?"(NOW SERVING)":($idx==1?"(NEXT)":"");
-                echo ' <div class="scrollItem '.$class.'" id="">
-                    <span class="scrollTitle">'.$client["name"].'</span>
-                    <span class="scrollInfo position">#'.$client["position"].'</span><br/>
-                    <span class="scrollTitle">'.$client["code"].'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$follow.'</span>
+                $class = $idx == 0 ? "current" : ($idx == 1 ? "next" : "");
+                $follow = $idx == 0 ? "(NOW SERVING)" : ($idx == 1 ? "(NEXT)" : "");
+                echo ' <div class="scrollItem ' . $class . '" id="">
+                    <span class="scrollTitle">' . $client["name"] . '</span>
+                    <span class="scrollInfo position">#' . $client["position"] . '</span><br/>
+                    <span class="scrollTitle">' . $client["code"] . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $follow . '</span>
                     </div>';
                 $idx++;
             }
