@@ -2,16 +2,116 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
+    min-width: 300px;
 }
 
 section{
     margin: 1em 2.5%;
     padding:1em 2.5%;
     background-color:whitesmoke;
+    margin-bottom:3em;
 }
 
-@media only screen and (max-width: 720px) {
+section h1{
+    margin-left:0.5em;
+}
+
+@media only screen and (max-width: 500px) {
     section{
         margin:0.5em 0;
+        margin-bottom:3em;
     }
+}
+
+input{
+    border:none;
+    padding:2px;
+    font-size:1em;
+}
+
+input[type=submit] {
+    padding:5px 1em;
+    background-color:#3ba1c1;
+    color:white;
+    transition:color 0.5s;
+    font-size:1.25em;
+    margin-top:1em;
+    margin-left:1em;
+}
+input[type=submit]:hover {
+    background-color:#358aa4;
+}
+
+select{
+    border:none;
+    padding:5px;
+}
+
+.scroller{
+    background-color:white;
+    width:100%;
+    border: 1px solid;
+    height:6em;
+    overflow:overlay;
+    font-size:15px;
+}
+
+/*.scroller::-webkit-scrollbar{*/
+/*    width:10px;*/
+/*    float:right;*/
+/*    !*background-color:#00000000;*!*/
+/*}*/
+/*.scroller::-webkit-scrollbar-track{*/
+/*    !*background-color:#00000000;*!*/
+/*}*/
+/*.scroller::-webkit-scrollbar-track-piece:start{*/
+/*    background:transparent;*/
+/*}*/
+
+/*.scroller::-webkit-scrollbar-track-piece:end{*/
+/*    background:transparent;*/
+/*}*/
+/*.scroller::-webkit-scrollbar-thumb{*/
+/*    width:10px;*/
+/*    background-color:lightgray;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+.scroller .scrollItem{
+    padding:5px 0.5em;
+    height: 2em;
+    border-bottom:1px solid;
+    cursor:pointer;
+    transition: color 1s;
+}
+
+.scroller .scrollItem.selected{
+    background-color:#9eecff;
+}
+
+.scroller .scrollItem:hover{
+    background-color:#6bbad5;
+}
+
+
+.scrollItem .scrollTitle{
+    clear:none;
+}
+
+.scrollItem .scrollInfo{
+    float:right;
+}
+
+button{
+    border:none;
+    font-size:1em;
+    background-color:#4e71c2;
+    color:white;
+    padding:0.5em 1em;
+    margin:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#3657a2ff;
 }
