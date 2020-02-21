@@ -21,10 +21,20 @@
 
         setInterval(updateQueue, 30000);
 
-        new Dialog({
+        let diag = new Dialog({
             title:"Dialog",
             content:"This is a dialog",
-            buttons:"Buttons!"
+            buttons:[
+                {
+                    text:"Confirm",
+                    onclick:"diag.hide()"
+                },
+                {
+                    text:"Cancel",
+                    onclick:"diag.hide()"
+                }
+
+            ]
         });
     </script>
 </head>
@@ -58,7 +68,7 @@
             ?>
         </div>
         <div id="buttons">
-            <button>Add to queue</button>
+            <button onclick="diag.show()">Add to queue</button>
             <button>Remove from queue</button>
         </div>
     </section>
