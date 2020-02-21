@@ -7,10 +7,11 @@
     <?php include(BACKEND . "/queue.php") ?>
     <link rel="stylesheet" type="text/css" href="/public/styles/rio.css"/>
     <script src="/public/scripts/scroller.js"></script>
+    <script src="/public/scripts/dialog.js"></script>
     <script>
         function updateQueue(result) {
             $.ajax({
-                url: "/RIO/rio", success: function () {
+                url: "/RIO/rio", success: function (result) {
                     console.log("Updated");
                     var newer = new DOMParser().parseFromString(result, "text/html");
                     document.getElementById("queueScroller").innerHTML = newer.getElementById("queueScroller").innerHTML;
@@ -20,6 +21,11 @@
 
         setInterval(updateQueue, 30000);
 
+        new Dialog({
+            title:"Dialog",
+            content:"This is a dialog",
+            buttons:"Buttons!"
+        });
     </script>
 </head>
 
@@ -124,5 +130,7 @@
         </div>
     </section>
 </div>
+
+
 </body>
 </html>
