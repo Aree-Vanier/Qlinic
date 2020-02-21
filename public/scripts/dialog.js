@@ -19,12 +19,15 @@ class Dialog {
         });
     }
 
-    /**Create the HTML element, automatically called on document load
+    /**
+     * Create the HTML element, automatically called on document load
      * @param self reference to the dialog object*/
     create(self) {
         let buttons = "";
         for (let button of self.buttons) {
-            buttons += `<button onclick="${button.onclick}">${button.text}</button>`;
+            if(button.extra===undefined)
+                button.extra = "";
+            buttons += `<button onclick="${button.onclick}" ${button.extra}>${button.text}</button>`;
         }
         let content = `
         <div class="dialogContainer" id="${self.id}">
@@ -32,9 +35,9 @@ class Dialog {
             <div class="dialogTitle">
                 <h1>${self.title}</h1>
             </div>
-                <div class="dialogContent">
+            <div class="dialogContent">
                 ${self.content}
-               </div>
+           </div>
             <div class="dialogButtons">
                 ${buttons}
             </div>
@@ -45,6 +48,14 @@ class Dialog {
         $("body").append(content);
         self.element = $("#" + self.id);
         self.center(self);
+    }
+
+    /**
+     * Rebuild the HTML element, with new values*/
+    rebuild(self) {
+        self.element.remove();
+        console.log(self.content);
+        self.create(self);
     }
 
     /**

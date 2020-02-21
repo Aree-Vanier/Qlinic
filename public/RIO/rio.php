@@ -9,33 +9,91 @@
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
     <script>
-        function updateQueue(result) {
+        function updateQueue() {
             $.ajax({
                 url: "/RIO/rio", success: function (result) {
                     console.log("Updated");
                     var newer = new DOMParser().parseFromString(result, "text/html");
-                    document.getElementById("queueScroller").innerHTML = newer.getElementById("queueScroller").innerHTML;
+                    document.getElementById("queueScroller").outerHTML = newer.getElementById("queueScroller").outerHTML;
+
+                    new SimpleBar(document.getElementById("queueScroller"), {
+                        timeout:750,
+                    });
                 }
             });
         }
 
         setInterval(updateQueue, 30000);
 
-        let diag = new Dialog({
-            title:"Dialog",
-            content:"This is a dialog",
-            buttons:[
+        let joinQueueDiag = new Dialog({
+            title: "Add to Queue",
+            content: `
+            <form onsubmit="return addToQueue()" id="addToQueueForm">
+                <table>
+                    <tr>
+                        <td>Name</td>
+                        <td><input id="name" type="text" placeholder="John Doe" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input id="email" type="email" placeholder="mail@example.com"/></td>
+                    </tr>
+                    <tr>
+                        <td>Phone #</td>
+                        <td><input id="phone" type="tel" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" oninput="formatNumber(this)"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>`,
+            buttons: [
                 {
-                    text:"Confirm",
-                    onclick:"diag.hide()"
+                    text: "Add",
+                    onclick: "",
+                    extra: `form="addToQueueForm" value="Submit"`
                 },
                 {
-                    text:"Cancel",
-                    onclick:"diag.hide()"
+                    text: "Cancel",
+                    onclick: "joinQueueDiag.hide()"
                 }
 
             ]
         });
+        let queueConfirmDiag = new Dialog({
+            title: "Added to Queue",
+            content: "User added to queue",
+            buttons:[
+                {
+                    text:"Close",
+                    onclick:"queueConfirmDiag.hide()"
+                }
+            ]
+        });
+
+        let xhttp = new XMLHttpRequest();
+
+        function addToQueue() {
+            console.log("Submitting");
+            let name = encodeURIComponent(document.getElementById("name").value);
+            let email = encodeURIComponent(document.getElementById("email").value);
+            let phone = encodeURIComponent(document.getElementById("phone").value);
+
+            $.post("/api/queue/join", {name: name, email: email, phone: phone}, function (data, status) {
+                if (status === "success") {
+                    if (data.startsWith("SUCCESS")) {
+                        let code = data.split(":")[1].split("-");
+                        console.log(code);
+                        queueConfirmDiag.content="User added to queue in position: "+code[0]+" with code: "+code[1];
+                        queueConfirmDiag.rebuild(queueConfirmDiag);
+                        joinQueueDiag.hide();
+                        queueConfirmDiag.show();
+                        updateQueue();
+                    } else {
+                        console.log(data);
+                    }
+                }
+            });
+            return false;
+        }
     </script>
 </head>
 
@@ -68,7 +126,7 @@
             ?>
         </div>
         <div id="buttons">
-            <button onclick="diag.show()">Add to queue</button>
+            <button onclick="joinQueueDiag.show()">Add to queue</button>
             <button>Remove from queue</button>
         </div>
     </section>

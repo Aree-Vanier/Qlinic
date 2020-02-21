@@ -132,12 +132,18 @@ button:hover{
     margin-left:50%;
     z-index: 3;
     background-color: white;
-    padding:0 2em 1em 2em;
+    padding:0 1em 1em 1em;
     border: 1px solid black;
     min-width:20em;
     margin-top:15%;
     width:fit-content;
 }
+
+.dialog .dialogContent{
+    background-color:whitesmoke;
+    padding:1em;
+}
+
 .dialog .dialogButtons{
     margin-top:1.5em;
     text-align: right;
