@@ -1,7 +1,7 @@
 <?php
 include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 //include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
-$stmt_getAll = $conn->prepare("SELECT * FROM qlinic.queue");
+$stmt_getAll = $conn->prepare("SELECT * FROM qlinic.queue ORDER BY position ASC");
 $stmt_getMax = $conn->prepare("SELECT MAX(position) FROM qlinic.queue");
 $stmt_getMin = $conn->prepare("SELECT MIN(position) FROM qlinic.queue");
 $stmt_add = $conn->prepare("INSERT INTO qlinic.queue (position, code, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
@@ -12,6 +12,23 @@ $stmt_archive = $conn->prepare("INSERT INTO qlinic.archive (joined, processed, w
 echo $stmt_archive->error;
 $stmt_getLatestArchive = $conn->prepare("SELECT * FROM qlinic.archive ORDER BY processed DESC limit 1");
 
+
+/**
+ * Get the contents of the queue
+ * @return array contents of the queue
+ * */
+function getFullQueue(){
+    global $stmt_getAll;
+    $stmt_getAll->execute();
+    $result = $stmt_getAll->get_result();
+    $out = [];
+    while($row = $result->fetch_assoc()){
+        array_push($out, $row);
+    }
+    $stmt_getAll->free_result();
+    return $out;
+}
+
 /**
  * Get the number of people in queue
  * @return int The number of rows in the queue
@@ -21,6 +38,7 @@ function getQueueLength(){
     $stmt_getAll->execute();
     $stmt_getAll->store_result();
     $rows = $stmt_getAll->num_rows;
+    $stmt_getAll->free_result();
     return $rows;
 }
 
