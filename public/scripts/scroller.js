@@ -38,5 +38,9 @@ window.addEventListener('load', function () {
         }
         //Save scroller
         scrollers.push(scroller)
+        //Configure scrollbar
+        new SimpleBar(scroller.root, {
+            timeout:750,
+        });
     }
 });
