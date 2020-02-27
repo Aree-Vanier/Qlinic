@@ -23,6 +23,13 @@
             });
         }
 
+        function serveNext(){
+            $.post("/api/queue/serve", {}, function (result) {
+                console.log(result);
+                updateQueue();
+            })
+            }
+
         setInterval(updateQueue, 30000);
 
         let joinQueueDiag = new Dialog({
@@ -105,7 +112,7 @@
 <div id="container">
     <section id="queue">
         <h1>Queue</h1>
-        <button>Serve Next</button>
+        <button onclick="serveNext()">Serve Next</button>
         <br/>
         <div class="scroller" id="queueScroller">
             <input class="scrollerInput" name="time" type="hidden" value="">
