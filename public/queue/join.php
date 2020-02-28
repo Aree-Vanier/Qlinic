@@ -10,6 +10,7 @@
     <script>
         let errDiag = new Dialog({
             title:"Error when joining queue",
+            id:"error",
             content:"Unkown error",
             buttons:[
                 {
