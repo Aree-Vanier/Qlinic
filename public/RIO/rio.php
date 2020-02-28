@@ -9,6 +9,30 @@
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
     <script>
+		function deleteFromQueue(code,position) {
+			$.post("/api/queue/delete", {code: code, position: position}, function (data, status) {
+				console.log(data);
+				updateQueue();
+			});
+		}
+		
+		//TODO: Make content specify user
+		//TODO: Add onclick
+		deleteDialog = new Dialog({
+			title:"",
+			content:"Are you sure you want to remove this user?",
+			buttons:[
+			{
+				text:"Confirm",
+				onclick:""
+			},
+			{
+				text:"Cancel",
+				onclick:"deleteDialog.hide()"
+			}
+			]
+		});
+		
         function updateQueue() {
             $.ajax({
                 url: "/RIO/rio", success: function (result) {
@@ -122,7 +146,7 @@
             foreach ($queue as $client) {
                 $class = $idx == 0 ? "current" : ($idx == 1 ? "next" : "");
                 $follow = $idx == 0 ? "(NOW SERVING)" : ($idx == 1 ? "(NEXT)" : "");
-                echo ' <div class="scrollItem ' . $class . '" id="">
+                echo ' <div class="scrollItem ' . $class . '" id="'.$client["code"].'">
                     <span class="scrollTitle">' . $client["name"] . '</span>
                     <span class="scrollInfo position">#' . $client["position"] . '</span><br/>
                     <span class="scrollTitle">' . $client["code"] . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $follow . '</span>
@@ -134,7 +158,7 @@
         </div>
         <div id="buttons">
             <button onclick="joinQueueDiag.show()">Add to queue</button>
-            <button>Remove from queue</button>
+            <button onclick="deleteDialog.show()">Remove from queue</button>
         </div>
     </section>
     <section id="appointments">
