@@ -43,6 +43,7 @@
                     new SimpleBar(document.getElementById("queueScroller"), {
                         timeout:750,
                     });
+                    initScrollers();
                 }
             });
         }
@@ -52,7 +53,7 @@
                 console.log(result);
                 updateQueue();
             })
-            }
+        }
 
         setInterval(updateQueue, 30000);
 

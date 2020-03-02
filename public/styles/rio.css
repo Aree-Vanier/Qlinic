@@ -55,6 +55,10 @@ section#queue{
     top:41px;
 }
 
+.scrollItem.selected{
+    background:black !important;
+}
+
 #queue #buttons{
     width:100%;
     text-align: center;
