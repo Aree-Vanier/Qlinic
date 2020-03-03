@@ -1,12 +1,13 @@
 let scrollers = [];
 
-window.addEventListener('load', function () {
+function initScrollers() {
     console.log("Initializing scrollers");
     //Get all scrollers on the page
     for (let div of document.getElementsByClassName('scroller')) {
+        console.log(div);
         let scroller = {root: div, items: [], input:null};
         //Iterate over child nodes
-        for (let item of div.childNodes) {
+        for (let item of div.querySelector(".scrollItem").parentElement.childNodes) {
             //Get all scroll items
             if (item.nodeName === "#text") continue;
 
@@ -23,7 +24,10 @@ window.addEventListener('load', function () {
                 item.onclick = function () {
                     if (scroller.selected === item)
                         return;
-                    scroller.selected.classList.remove("selected");
+                    if(scroller.selected !== undefined) {
+                        console.log(scroller.selected);
+                        scroller.selected.classList.remove("selected");
+                    }
                     item.classList.add("selected");
                     scroller.selected = item;
                     if(scroller.input != null){
@@ -43,4 +47,7 @@ window.addEventListener('load', function () {
             timeout:750,
         });
     }
-});
+}
+
+
+window.addEventListener('load', initScrollers);

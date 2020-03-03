@@ -5,8 +5,21 @@
     <title>Join Queue</title>
     <?php include(META) ?>
     <?php include(BACKEND."/queue.php")?>
-    <script src="/scripts/forms.js"></script>
+    <script src="/public/scripts/forms.js"></script>
+    <script src="/public/scripts/dialog.js"></script>
     <script>
+        let errDiag = new Dialog({
+            title:"Error when joining queue",
+            id:"error",
+            content:"Unkown error",
+            buttons:[
+                {
+                    text:"Dismiss",
+                    onclick:"errDiag.hide()"
+                }
+            ]
+        });
+
         let xhttp = new XMLHttpRequest();
         function onSubmit(){
             console.log("Submitting");
@@ -22,6 +35,9 @@
                         window.location.replace("/queue/confirmation/"+code);
                     } else {
                         console.log(data);
+                        errDiag.content=data;
+                        errDiag.rebuild(errDiag);
+                        errDiag.show();
                     }
                 }
             });
