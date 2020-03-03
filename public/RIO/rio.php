@@ -16,12 +16,12 @@
 			//let position = document.getElementById(code).querySelector('scrollInfo.position');
 			console.log(code);
 			console.log(position);
-			/*
+			
 			$.post("/api/queue/delete", {code: code, position: position}, function (data, status) {
 				console.log(data);
 				updateQueue();
 			});
-			*/
+			
 		}
 		
 		//TODO: Make content specify user
