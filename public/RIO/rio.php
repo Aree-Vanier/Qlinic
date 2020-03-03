@@ -9,11 +9,19 @@
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
     <script>
-		function deleteFromQueue(code,position) {
+		function deleteFromQueue() {
+			let code = document.getElementById("queueSelect").value;
+			let position = document.querySelector("#"+code+" .scrollInfo.position").innerHTML
+			position = position.substring(1);
+			//let position = document.getElementById(code).querySelector('scrollInfo.position');
+			console.log(code);
+			console.log(position);
+			/*
 			$.post("/api/queue/delete", {code: code, position: position}, function (data, status) {
 				console.log(data);
 				updateQueue();
 			});
+			*/
 		}
 		
 		//TODO: Make content specify user
@@ -24,7 +32,7 @@
 			buttons:[
 			{
 				text:"Confirm",
-				onclick:""
+				onclick:"deleteFromQueue()"
 			},
 			{
 				text:"Cancel",
@@ -140,7 +148,7 @@
         <button onclick="serveNext()">Serve Next</button>
         <br/>
         <div class="scroller" id="queueScroller">
-            <input class="scrollerInput" name="time" type="hidden" value="">
+            <input class="scrollerInput" id="queueSelect" type="hidden" value="">
             <?php
             $queue = getFullQueue();
             $idx = 0;
