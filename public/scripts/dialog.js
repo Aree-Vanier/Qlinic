@@ -7,7 +7,7 @@ class Dialog {
     constructor(args) {
         let self = this;
         self.title = args.title;
-        if(args.id !== null){
+        if(args.id !== undefined){
             self.id = args.id;
         } else {
             self.id = "dialog_" + args.title.replace(/ /g, "-");
