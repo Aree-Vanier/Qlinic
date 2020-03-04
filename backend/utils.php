@@ -1,4 +1,8 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
     if(!isset($headless) || $headless == false){
         echo "<!-- JQuery -->\n<script src=\"/public/scripts/jquery.js\"></script>";
 
@@ -21,6 +25,8 @@
     if($conn->connect_error){
         echo("Connection Failed" . $conn->connect_error);
     }
+    $conn->query("SET time_zone -5:00");
+    date_default_timezone_set("EST");
 
     /**
      * Check that passed values exist in the POST statement
