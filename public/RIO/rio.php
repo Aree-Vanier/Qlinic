@@ -45,12 +45,14 @@
             $.ajax({
                 url: "/RIO/rio", success: function (result) {
                     console.log("Updated");
+                    let selected = document.getElementById("queueSelect").value;
                     var newer = new DOMParser().parseFromString(result, "text/html");
                     document.getElementById("queueScroller").outerHTML = newer.getElementById("queueScroller").outerHTML;
 
                     new SimpleBar(document.getElementById("queueScroller"), {
                         timeout:750,
                     });
+                    document.getElementById(selected).classList.add("selected");
                     initScrollers();
                 }
             });
