@@ -55,7 +55,7 @@ section#queue{
 }
 
 .scrollItem.selected{
-    background:black !important;
+    background:#7d7d7d !important;
 }
 
 #queue #buttons{
