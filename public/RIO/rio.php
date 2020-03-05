@@ -1,7 +1,11 @@
 <?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php
+	session_start();
+?>
 <!doctype html>
 <html lang="en">
 <head>
+	
     <title>Template Page</title>
     <?php include(META) ?>
     <?php include(BACKEND . "/queue.php") ?>
@@ -138,6 +142,14 @@
 </head>
 
 <body>
+<?php
+		if ($_SESSION['loggedin'] == false || isset($SESSION['loggedin']) == false)
+		{
+			?>
+			<a href="/rlogin.php"></a>
+			<?php
+		}
+	?>
 <header>
     <img src="/public/images/logo.svg"/><br/>
     Receptionist Interface
