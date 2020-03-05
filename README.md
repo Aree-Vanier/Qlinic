@@ -29,3 +29,46 @@ Understanding the filestructure is key to developing the application. Here is a 
 │  └───styles   ------  This contains the stylesheets used by various pages
 |  │  ├───main.css  --  The primary stylesheet for all pages
 ```
+
+# Basic file setup
+
+``` php
+<!-- Import utils -->
+<?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Template Page</title>
+    <!-- Import standard metadata -->
+    <?php include(META) ?>
+    
+    <!-- Import extra stylesheets -->
+    <!-- <link rel="stylesheet" type="text/css" href="/public/styles/stylesheet.css"/> -->
+    
+    <!-- Import external scripts -->
+    <!-- <script src="/public/scripts/script.js"></script> -->
+    
+    <script>
+      // Write scripts for this page
+    </script>
+</head>
+
+<body>
+<!-- Import the header -->
+<?php include(HEADER) ?>
+
+<!-- Page content -->
+<section>
+    Template Page
+
+</section>
+
+<!-- More content -->
+<section>
+
+</section>
+
+</body>
+</html>
+
+```
