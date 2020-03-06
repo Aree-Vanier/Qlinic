@@ -24,8 +24,8 @@
     </header>
     <section style="text-align: center;">
         <h2>Your number</h2>
-        <h1 style="font-size: 5em; margin:0"><?php echo $data["position"]?></h1>
-        <h2>Code: <?php echo $data["code"]?></h2>
+        <h1 style="font-size: 5em; margin:0" id="position"><?php echo $data["position"]?></h1>
+        <h2>Code: <span id="code"><?php echo $data["code"]?></span></h2>
     </section>
 
     <section style="text-align: center;">

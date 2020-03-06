@@ -176,11 +176,12 @@ function removeFromQueue(){
     $joinTime = strtotime($data["time"]);
     $waitTime = $currentTime-$joinTime;
     $prev = getLastArchived();
-    echo $currentTime."--".strtotime($prev["processed"])."<br/>";
+    echo "Dates: ".date("Y-m-d H:i:s", $currentTime)."--".$prev["processed"]."<br/>";
+    echo "Timestamps: ".$currentTime."--".strtotime($prev["processed"])."<br/>";
     $betweenTime = $currentTime-strtotime($prev["processed"]);
-    echo $currentTime."<br/>".$joinTime."<br/>".$waitTime."<br/>".$betweenTime;
+    echo $currentTime." | ".$joinTime." | ".date("d H:i:s", $waitTime)." | ". date("d H:i:s", $betweenTime) . "<br/>";
     $stmt_archive->bind_param("iiii",$joinTime, $currentTime, $waitTime, $betweenTime);
-//    $stmt_archive->execute();
+    $stmt_archive->execute();
     echo "ERROR: ".$stmt_archive->error;
-//    delete($data["position"], $data["code"]);
+    delete($data["position"], $data["code"]);
 }

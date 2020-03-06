@@ -3,11 +3,15 @@ class Dialog {
      * Create a new dialog box
      * @param args A JSON object describing the dialog box.
      * Must contain: title (what will be used as title), content (html or plaintext that will be in dialog box), and
-     * buttons (an array of JSON objects, each with text and onclick)*/
+     * buttons (an array of JSON objects, each with text and onclick), optionally, and ID can be specified*/
     constructor(args) {
         let self = this;
         self.title = args.title;
-        self.id = "dialog_" + args.title.replace(/ /g, "-");
+        if(args.id !== undefined){
+            self.id = args.id;
+        } else {
+            self.id = "dialog_" + args.title.replace(/ /g, "-");
+        }
         self.content = args.content;
         self.buttons = args.buttons;
         self.visible = false;
