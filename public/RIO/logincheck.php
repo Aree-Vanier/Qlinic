@@ -6,19 +6,26 @@ include (BACKEND."/queue.php");
 session_start();
    if(isset($_POST['login'])&&isset($_POST['password'])) 
    {
-		if($_POST['login'] == "Jeff" && $_POST['password'] == "Bezos")
-		{
-			$_SESSION['loggedin'] = true;
-			echo ("REDIR RIO");
-			header("Location: http://localhost/RIO/rio");
-			exit();
+		$result = $conn->query("SELECT * FROM qlinic.receptionists");
+		while($row = $result->fetch_assoc()){
+			$username = ($row['name']);
+			$pass = ($row['password']);
+
+			if($_POST['login'] == $username && $_POST['password'] == $pass)
+			{
+				$_SESSION['loggedin'] = true;
+				//echo ("REDIR RIO");
+				header("Location: http://localhost/RIO/rio");
+				exit();
+			}
+		
+
 		}
-		else
-		{
-			$_SESSION['loggedin'] = false;
-			echo ("REDIR login");
-			header("Location: http://localhost/RIO/rlogin");
-			exit();
-		}
+		$conn->close();
+		$_SESSION['loggedin'] = false;
+		//echo ("REDIR login");
+		header("Location: http://localhost/RIO/rlogin");
+		exit();
+		
    }
 ?>
