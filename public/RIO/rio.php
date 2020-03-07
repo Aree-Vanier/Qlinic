@@ -64,7 +64,12 @@
                     new SimpleBar(document.getElementById("queueScroller"), {
                         timeout:750,
                     });
-                    document.getElementById(selected).classList.add("selected");
+                    try {
+                        document.getElementById(selected).classList.add("selected");
+                    }catch (e) {
+                        console.log("No item selected");
+                    }
+
                     initScrollers();
                 }
             });
