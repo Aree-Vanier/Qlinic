@@ -1,7 +1,19 @@
 <?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php
+	session_start();
+?>
+<?php
+		if ($_SESSION['loggedin'] == false || isset($_SESSION['loggedin']) == false)
+		{
+			echo($_SESSION['loggedin']);
+			header("Location: http://localhost/RIO/rlogin");
+			exit();
+		}
+		?>
 <!doctype html>
 <html lang="en">
 <head>
+	
     <title>Template Page</title>
     <?php include(META) ?>
     <?php include(BACKEND . "/queue.php") ?>
@@ -9,11 +21,19 @@
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
     <script>
-		function deleteFromQueue(code,position) {
+		function deleteFromQueue() {
+			let code = document.getElementById("queueSelect").value;
+			let position = document.querySelector("#"+code+" .scrollInfo.position").innerHTML
+			position = position.substring(1);
+			//let position = document.getElementById(code).querySelector('scrollInfo.position');
+			console.log(code);
+			console.log(position);
+			
 			$.post("/api/queue/delete", {code: code, position: position}, function (data, status) {
 				console.log(data);
 				updateQueue();
 			});
+			
 		}
 		
 		//TODO: Make content specify user
@@ -24,7 +44,7 @@
 			buttons:[
 			{
 				text:"Confirm",
-				onclick:""
+				onclick:"deleteFromQueue()"
 			},
 			{
 				text:"Cancel",
@@ -37,12 +57,14 @@
             $.ajax({
                 url: "/RIO/rio", success: function (result) {
                     console.log("Updated");
+                    let selected = document.getElementById("queueSelect").value;
                     var newer = new DOMParser().parseFromString(result, "text/html");
                     document.getElementById("queueScroller").outerHTML = newer.getElementById("queueScroller").outerHTML;
 
                     new SimpleBar(document.getElementById("queueScroller"), {
                         timeout:750,
                     });
+                    document.getElementById(selected).classList.add("selected");
                     initScrollers();
                 }
             });
@@ -140,7 +162,7 @@
         <button onclick="serveNext()">Serve Next</button>
         <br/>
         <div class="scroller" id="queueScroller">
-            <input class="scrollerInput" name="time" type="hidden" value="">
+            <input class="scrollerInput" id="queueSelect" type="hidden" value="">
             <?php
             $queue = getFullQueue();
             $idx = 0;

@@ -1,6 +1,6 @@
 <?php
 include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
-include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
+//include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
 $stmt_getAll = $conn->prepare("SELECT * FROM qlinic.queue ORDER BY position ASC");
 $stmt_getMax = $conn->prepare("SELECT MAX(position) FROM qlinic.queue");
 $stmt_getMin = $conn->prepare("SELECT MIN(position) FROM qlinic.queue");
