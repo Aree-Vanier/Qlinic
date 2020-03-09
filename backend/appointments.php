@@ -4,16 +4,16 @@ include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 
 $stmt_getDocs = $conn->prepare("SELECT ID,server FROM qlinic.available");
 $stmt_getDoc = $conn->prepare("SELECT * FROM qlinic.available WHERE ID = ?");
-
+$stmt_getAllBooked = $conn->prepare("SELECT * from qlinic.booked ORDER BY date");
 /**
  * Get a list of possible times for a specific doctor
- * @param $doc int ID of the target doctor
+ * @param $server int ID of the target server
  * @param $date int UNIX timestamp for 0:00 (midnight) on selected date
  * @return array list of possible times, in unix timestamps
 */
-function getDocPossibleTimes($doc , $date){
+function getDocPossibleTimes($date, $server){
     global $stmt_getDoc;
-    $stmt_getDoc->bind_param("i", $doc);
+    $stmt_getDoc->bind_param("i", $server);
     $stmt_getDoc->execute();
     $result=$stmt_getDoc->get_result()->fetch_assoc();
     $stmt_getDoc->free_result();
@@ -54,10 +54,18 @@ function getAllPossibleTimes($date){
 /**
  *
 */
-function getBookedTimes(){
-
-
+function getAllBookedTimes(){
+    global $stmt_getAllBooked;
+    $stmt_getAllBooked->execute();
+    $stmt_getAllBooked->store_result();
+    $result = $stmt_getAllBooked->get_result();
+    $out = [];
+    while ($row = $result->fetch_assoc()){
+        array_push($out, $result);
+    }
+    return $out;
 }
+
 
 
 
