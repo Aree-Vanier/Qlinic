@@ -28,6 +28,29 @@
     $conn->query("SET time_zone -5:00");
     date_default_timezone_set("EST");
 
+
+    /**
+     * List of existing statements
+    */
+    $statements = [];
+    /**
+     * Create a prepared statement from a MySQL query
+     * @param $query string The query to be used
+     * @return mysqli_stmt The prepared statement
+     */
+    function createStmt($query){
+        global $conn, $statements;
+        //Check if an identical query exists
+        if(isset($statements[$query])){
+            //Free the result to ensure clean for next use
+            $statements[$query]->free_result();
+            return $statements[$query];
+        }
+        //If not create a new one
+        $statements[$query]  = $conn->prepare($query);
+        return $statements[$query];
+    }
+
     /**
      * Check that passed values exist in the POST statement
      * @param $values array Array of values to check for
