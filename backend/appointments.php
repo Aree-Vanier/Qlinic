@@ -5,8 +5,8 @@ include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 define("GET_DOCS", "SELECT ID,server FROM qlinic.available");
 define("GET_DOC_INFO", "SELECT * FROM qlinic.available WHERE ID = ?");
 define("GET_ALL_BOOKED", "SELECT * from qlinic.booked ORDER BY date");
-define("GET_BY_DATE", "SELECT (date+time) FROM qlinic.booked WHERE date = ? AND server = ?");
-define("GET_BY_SERVER", "SELECT (date+time) FROM qlinic.booked WHERE server = ?");
+define("GET_BY_DATE", "SELECT (date+time) FROM qlinic.booked WHERE date = ?");
+define("GET_BY_DATE_AND_SERVER", "SELECT (date+time) FROM qlinic.booked WHERE date = ? AND server = ?");
 define("GET_ALL_IN_RANGE", "SELECT (date+time),server,length,code FROM qlinic.booked WHERE date>? AND date<?");
 
 
@@ -86,10 +86,18 @@ function getAllAppointments(){
 
 /**
  * Get appointments booked on a specific date
+ * @param $date int The unix timestamp for midnight on the target date
+ * @param $server int The ID of the server. If left null will get all servers.
+ * @return array The list of booked appointment timestamps
  */
-function getBookedOnDate($date, $server){
-    $stmt = createStatement(GET_BY_DATE);
-    $stmt->bind_param("ii", $date, $server);
+function getBookedOnDate($date, $server=null){
+    if($server==null){
+        $stmt = createStatement(GET_BY_DATE);
+        $stmt->bind_param("i", $date);
+    } else {
+        $stmt = createStatement(GET_BY_DATE_AND_SERVER);
+        $stmt->bind_param("ii", $date, $server);
+    }
     $stmt->execute();
     $stmt->bind_result($time);
 
@@ -101,6 +109,11 @@ function getBookedOnDate($date, $server){
     return $out;
 }
 
+/**
+ * Get available appointment slots on a given date
+ * @param $date int The unix timestamp for midnight on the target date
+ * @return array Associative array with array of times under server IDs
+*/
 function getAvailable($date){
     $possible = getAllPossibleTimes($date);
     $out = [];
