@@ -1,7 +1,19 @@
 <?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php
+	session_start();
+?>
+<?php
+		if ($_SESSION['loggedin'] == false || isset($_SESSION['loggedin']) == false)
+		{
+			echo($_SESSION['loggedin']);
+			header("Location: http://localhost/RIO/rlogin");
+			exit();
+		}
+		?>
 <!doctype html>
 <html lang="en">
 <head>
+	
     <title>Template Page</title>
     <?php include(META) ?>
     <?php include(BACKEND . "/queue.php") ?>
@@ -52,7 +64,12 @@
                     new SimpleBar(document.getElementById("queueScroller"), {
                         timeout:750,
                     });
-                    document.getElementById(selected).classList.add("selected");
+                    try {
+                        document.getElementById(selected).classList.add("selected");
+                    }catch (e) {
+                        console.log("No item selected");
+                    }
+
                     initScrollers();
                 }
             });
