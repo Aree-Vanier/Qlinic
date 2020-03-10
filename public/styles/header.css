@@ -2,7 +2,7 @@
 header {
     width: 100%;
     padding:0;
-    background-color:#9eecff;
+    background-color:#3a5491;
     margin:0;
     overflow:auto;
 }
@@ -33,7 +33,7 @@ header img{
 nav{
     margin: 0 0 2em;
     width:100%;
-    background-color:#4e71c2;
+    background-color:#3a5491;
     position: sticky;
     top:0px;
 }

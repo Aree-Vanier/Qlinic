@@ -1,7 +1,19 @@
 <?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php
+	session_start();
+?>
+<?php
+		if ($_SESSION['loggedin'] == false || isset($_SESSION['loggedin']) == false)
+		{
+			echo($_SESSION['loggedin']);
+			header("Location: http://localhost/RIO/rlogin");
+			exit();
+		}
+		?>
 <!doctype html>
 <html lang="en">
 <head>
+	
     <title>Template Page</title>
     <?php include(META) ?>
     <?php include(BACKEND . "/queue.php") ?>
@@ -9,18 +21,65 @@
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
     <script>
+		function deleteFromQueue() {
+			let code = document.getElementById("queueSelect").value;
+			let position = document.querySelector("#"+code+" .scrollInfo.position").innerHTML
+			position = position.substring(1);
+			//let position = document.getElementById(code).querySelector('scrollInfo.position');
+			console.log(code);
+			console.log(position);
+			
+			$.post("/api/queue/delete", {code: code, position: position}, function (data, status) {
+				console.log(data);
+				updateQueue();
+			});
+			
+		}
+		
+		//TODO: Make content specify user
+		//TODO: Add onclick
+		deleteDialog = new Dialog({
+			title:"",
+			content:"Are you sure you want to remove this user?",
+			buttons:[
+			{
+				text:"Confirm",
+				onclick:"deleteFromQueue()"
+			},
+			{
+				text:"Cancel",
+				onclick:"deleteDialog.hide()"
+			}
+			]
+		});
+		
         function updateQueue() {
             $.ajax({
                 url: "/RIO/rio", success: function (result) {
                     console.log("Updated");
+                    let selected = document.getElementById("queueSelect").value;
                     var newer = new DOMParser().parseFromString(result, "text/html");
                     document.getElementById("queueScroller").outerHTML = newer.getElementById("queueScroller").outerHTML;
 
                     new SimpleBar(document.getElementById("queueScroller"), {
                         timeout:750,
                     });
+                    try {
+                        document.getElementById(selected).classList.add("selected");
+                    }catch (e) {
+                        console.log("No item selected");
+                    }
+
+                    initScrollers();
                 }
             });
+        }
+
+        function serveNext(){
+            $.post("/api/queue/serve", {}, function (result) {
+                console.log(result);
+                updateQueue();
+            })
         }
 
         setInterval(updateQueue, 30000);
@@ -105,17 +164,17 @@
 <div id="container">
     <section id="queue">
         <h1>Queue</h1>
-        <button>Serve Next</button>
+        <button onclick="serveNext()">Serve Next</button>
         <br/>
         <div class="scroller" id="queueScroller">
-            <input class="scrollerInput" name="time" type="hidden" value="">
+            <input class="scrollerInput" id="queueSelect" type="hidden" value="">
             <?php
             $queue = getFullQueue();
             $idx = 0;
             foreach ($queue as $client) {
                 $class = $idx == 0 ? "current" : ($idx == 1 ? "next" : "");
                 $follow = $idx == 0 ? "(NOW SERVING)" : ($idx == 1 ? "(NEXT)" : "");
-                echo ' <div class="scrollItem ' . $class . '" id="">
+                echo ' <div class="scrollItem ' . $class . '" id="'.$client["code"].'">
                     <span class="scrollTitle">' . $client["name"] . '</span>
                     <span class="scrollInfo position">#' . $client["position"] . '</span><br/>
                     <span class="scrollTitle">' . $client["code"] . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $follow . '</span>
@@ -127,7 +186,7 @@
         </div>
         <div id="buttons">
             <button onclick="joinQueueDiag.show()">Add to queue</button>
-            <button>Remove from queue</button>
+            <button onclick="deleteDialog.show()">Remove from queue</button>
         </div>
     </section>
     <section id="appointments">
