@@ -38,7 +38,7 @@
      * @param $query string The query to be used
      * @return mysqli_stmt The prepared statement
      */
-    function createStmt($query){
+    function createStatement($query){
         global $conn, $statements;
         //Check if an identical query exists
         if(isset($statements[$query])){

@@ -17,7 +17,7 @@ define("LATEST_ARCHIVED", "SELECT * FROM qlinic.archive ORDER BY processed DESC 
  * @return array contents of the queue
  * */
 function getFullQueue(){
-    $stmt = createStmt(GET_QUEUE);
+    $stmt = createStatement(GET_QUEUE);
     $stmt->execute();
     $result = $stmt->get_result();
     $out = [];
@@ -33,7 +33,7 @@ function getFullQueue(){
  * @return int The number of rows in the queue
  * */
 function getQueueLength(){
-    $stmt = createStmt(GET_QUEUE);
+    $stmt = createStatement(GET_QUEUE);
     $stmt->execute();
     $stmt->store_result();
     $rows = $stmt->num_rows;
@@ -47,7 +47,7 @@ function getQueueLength(){
  * @return int The number of rows in the queue
  * */
 function getBefore($position){
-    $stmt = createStmt(GET_BEFORE);
+    $stmt = createStatement(GET_BEFORE);
     $stmt->bind_param("i" ,$position);
     $stmt->execute();
     $stmt->store_result();
@@ -73,7 +73,7 @@ function getTime($position = -1){
  * @return int The highest position, plus one
  */
 function getNextAvailable(){
-    $stmt = createStmt(GET_MAX);
+    $stmt = createStatement(GET_MAX);
     $result = null;
     $stmt->execute();
     $stmt->bind_result($result);
@@ -88,7 +88,7 @@ function getNextAvailable(){
  * @return int The row with the lowest position
  */
 function getNextServed(){
-    $stmt = createStmt(GET_MIN);
+    $stmt = createStatement(GET_MIN);
     $result = null;
     $stmt->execute();
     $stmt->bind_result($result);
@@ -104,7 +104,7 @@ function getNextServed(){
  * @return array Row in specified position
 */
 function getEntry($position){
-    $stmt=createStmt(GET_CLIENT);
+    $stmt=createStatement(GET_CLIENT);
     $stmt->bind_param("i", $position);
     $stmt->execute();
 //    $stmt->bind_result($result);
@@ -126,7 +126,7 @@ function getEntry($position){
  * @return bool true if added successfully
  */
 function addToQueue($name, $email, $phone, $transac, &$pos=-1, &$code=''){
-    $stmt = createStmt(ADD_CLIENT);
+    $stmt = createStatement(ADD_CLIENT);
     $pos = getNextAvailable();
     $UUID = substr(preg_replace("/[\.\/]/", "",password_hash($name, CRYPT_MD5)), 7,5);
     $UUID = strtoupper($UUID);
@@ -147,7 +147,7 @@ function addToQueue($name, $email, $phone, $transac, &$pos=-1, &$code=''){
  * @return array The latest row archived
  */
 function getLastArchived(){
-    $stmt = createStmt(LATEST_ARCHIVED);
+    $stmt = createStatement(LATEST_ARCHIVED);
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();
     $stmt->free_result();
@@ -160,7 +160,7 @@ function getLastArchived(){
  * @param $code int The accompanying code
 */
 function delete($position, $code){
-    $stmt = createStmt(REMOVE_CLIENT);
+    $stmt = createStatement(REMOVE_CLIENT);
     $stmt->bind_param("is", $position, $code);
     $stmt->execute();
 }
@@ -169,7 +169,7 @@ function delete($position, $code){
  * Remove the person at the top of the queue, and add them to the archive
 */
 function removeFromQueue(){
-    $stmt = createStmt(ARCHIVE_CLIENT);
+    $stmt = createStatement(ARCHIVE_CLIENT);
     $data = getEntry(getNextServed());
     $currentTime = time();
     $joinTime = strtotime($data["time"]);

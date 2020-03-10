@@ -14,7 +14,7 @@ DEFINE("GET_ALL_APPOINTMENTS", "SELECT * from qlinic.booked ORDER BY date");
  * @return array list of possible times, in unix timestamps
 */
 function getDocPossibleTimes($date, $server){
-    $stmt = createStmt(GET_DOC_INFO);
+    $stmt = createStatement(GET_DOC_INFO);
     $stmt->bind_param("i", $server);
     $stmt->execute();
     $result=$stmt->get_result()->fetch_assoc();
@@ -38,7 +38,7 @@ function getDocPossibleTimes($date, $server){
  * @return array This list of available times sorted by doctor
 */
 function getAllPossibleTimes($date){
-    $stmt = createStmt(GET_DOCS);
+    $stmt = createStatement(GET_DOCS);
 
     $stmt->execute();
     $ID="";
@@ -58,7 +58,7 @@ function getAllPossibleTimes($date){
  *
 */
 function getAllBookedTimes(){
-    $stmt = createStmt(GET_ALL_APPOINTMENTS);
+    $stmt = createStatement(GET_ALL_APPOINTMENTS);
     $stmt->execute();
     $stmt->store_result();
     $result = $stmt->get_result();
