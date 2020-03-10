@@ -48,6 +48,9 @@
         }
         //If not create a new one
         $statements[$query]  = $conn->prepare($query);
+        if($conn->error!=""){
+            die($conn->error);
+        }
         return $statements[$query];
     }
 
