@@ -58,19 +58,30 @@ function getAllPossibleTimes($date){
 }
 
 /**
+ * Get basic information for all appointments booked within a timeframe
+ * @param $start int The start of the timeframe, in seconds
+ * @param $end int The end of the timeframe, in seconds
+ * @return array Associative array containing: server, time, length, and code
+ */
+function getInRange($start, $end){
+    $stmt = createStatement(GET_ALL_IN_RANGE);
+    $stmt->bind_param("ii", $start, $end);
+    $stmt->execute();
+    $stmt->bind_result($time, $server,$len,$code);
+    $stmt->store_result();
+    $out = [];
+    while($stmt->fetch()){
+        array_push($out, array("server"=>$server, "time"=>$time, "length"=>$len, "code"=>$code));
+    }
+    $stmt->free_result();
+    return $out;
+}
+
+/**
  * Get all booked appointments
 */
 function getAllAppointments(){
-    $stmt = createStatement(GET_ALL_BOOKED);
-    $stmt->execute();
-    $stmt->store_result();
-    $result = $stmt->get_result();
-    $stmt->free_result();
-    $out = [];
-    while ($row = $result->fetch_assoc()){
-        array_push($out, $result);
-    }
-    return $out;
+    return getInRange(0,999999999999);
 }
 
 /**
@@ -101,26 +112,6 @@ function getAvailable($date){
         $available = array_diff($times, $booked);
         $out[$server] = $available;
     }
-    return $out;
-}
-
-/**
- * Get basic information for all appointments booked within a timeframe
- * @param $start int The start of the timeframe, in seconds
- * @param $end int The end of the timeframe, in seconds
- * @return array Associative array containing: server, time, length, and code
- */
-function getInRange($start, $end){
-    $stmt = createStatement(GET_ALL_IN_RANGE);
-    $stmt->bind_param("ii", $start, $end);
-    $stmt->execute();
-    $stmt->bind_result($time, $server,$len,$code);
-    $stmt->store_result();
-    $out = [];
-    while($stmt->fetch()){
-        array_push($out, array("server"=>$server, "time"=>$time, "length"=>$len, "code"=>$code));
-    }
-    $stmt->free_result();
     return $out;
 }
 
