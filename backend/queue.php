@@ -10,7 +10,7 @@ define("GET_BEFORE", "SELECT * FROM qlinic.queue WHERE position<?");
 define("REMOVE_CLIENT", "DELETE FROM qlinic.queue WHERE position=? AND code=?");
 define("ARCHIVE_CLIENT", "INSERT INTO qlinic.archive (joined, processed, wait, delta) VALUES (from_unixtime(?),from_unixtime(?),?,?)");
 define("LATEST_ARCHIVED", "SELECT * FROM qlinic.archive ORDER BY processed DESC limit 1");
-
+define("AVERAGE_DELTA", "select AVG(delta) from qlinic.archive where delta<?;");
 
 /**
  * Get the contents of the queue
@@ -53,6 +53,21 @@ function getBefore($position){
     $stmt->store_result();
     $rows = $stmt->num_rows;
     return $rows;
+}
+
+/**
+ * Get the average wait time between clients
+ * @param $timeout int Optional argument to specify max wait time to include (allows for ignoring overnights)
+ * @return int The average amount of seconds between clients being served
+ */
+function getAverageDelta($timeout=999999999){
+    $stmt = createStatement(AVERAGE_DELTA);
+    $stmt->bind_param("i", $timeout);
+    $stmt->execute();
+    $stmt->bind_result($delta);
+    $stmt->fetch();
+    $stmt->free_result();
+    return $delta;
 }
 
 /**
