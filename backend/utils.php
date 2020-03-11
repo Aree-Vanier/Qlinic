@@ -1,4 +1,8 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
     if(!isset($headless) || $headless == false){
         echo "<!-- JQuery -->\n<script src=\"/public/scripts/jquery.js\"></script>";
 
@@ -23,6 +27,32 @@
     }
     $conn->query("SET time_zone -5:00");
     date_default_timezone_set("EST");
+
+
+    /**
+     * List of existing statements
+    */
+    $statements = [];
+    /**
+     * Create a prepared statement from a MySQL query
+     * @param $query string The query to be used
+     * @return mysqli_stmt The prepared statement
+     */
+    function createStatement($query){
+        global $conn, $statements;
+        //Check if an identical query exists
+        if(isset($statements[$query])){
+            //Free the result to ensure clean for next use
+            $statements[$query]->free_result();
+            return $statements[$query];
+        }
+        //If not create a new one
+        $statements[$query]  = $conn->prepare($query);
+        if($conn->error!=""){
+            die($conn->error);
+        }
+        return $statements[$query];
+    }
 
     /**
      * Check that passed values exist in the POST statement
