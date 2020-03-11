@@ -1,31 +1,30 @@
 <?php
 include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 //include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
-$stmt_getAll = $conn->prepare("SELECT * FROM qlinic.queue ORDER BY position ASC");
-$stmt_getMax = $conn->prepare("SELECT MAX(position) FROM qlinic.queue");
-$stmt_getMin = $conn->prepare("SELECT MIN(position) FROM qlinic.queue");
-$stmt_add = $conn->prepare("INSERT INTO qlinic.queue (position, code, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
-$stmt_getEntry = $conn->prepare("SELECT * FROM qlinic.queue WHERE position=?");
-$stmt_getBefore = $conn->prepare("SELECT * FROM qlinic.queue WHERE position<?");
-$stmt_remove = $conn->prepare("DELETE FROM qlinic.queue WHERE position=? AND code=?");
-$stmt_archive = $conn->prepare("INSERT INTO qlinic.archive (joined, processed, wait, delta) VALUES (from_unixtime(?),from_unixtime(?),?,?)");
-echo $stmt_archive->error;
-$stmt_getLatestArchive = $conn->prepare("SELECT * FROM qlinic.archive ORDER BY processed DESC limit 1");
-
+define("GET_QUEUE", "SELECT * FROM qlinic.queue ORDER BY position");
+define("GET_MAX", "SELECT MAX(position) FROM qlinic.queue");
+define("GET_MIN", "SELECT MIN(position) FROM qlinic.queue");
+define("ADD_CLIENT", "INSERT INTO qlinic.queue (position, code, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
+define("GET_CLIENT", "SELECT * FROM qlinic.queue WHERE position=?");
+define("GET_BEFORE", "SELECT * FROM qlinic.queue WHERE position<?");
+define("REMOVE_CLIENT", "DELETE FROM qlinic.queue WHERE position=? AND code=?");
+define("ARCHIVE_CLIENT", "INSERT INTO qlinic.archive (joined, processed, wait, delta) VALUES (from_unixtime(?),from_unixtime(?),?,?)");
+define("LATEST_ARCHIVED", "SELECT * FROM qlinic.archive ORDER BY processed DESC limit 1");
+define("AVERAGE_DELTA", "select AVG(delta) from qlinic.archive where delta<?;");
 
 /**
  * Get the contents of the queue
  * @return array contents of the queue
  * */
 function getFullQueue(){
-    global $stmt_getAll;
-    $stmt_getAll->execute();
-    $result = $stmt_getAll->get_result();
+    $stmt = createStatement(GET_QUEUE);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $out = [];
     while($row = $result->fetch_assoc()){
         array_push($out, $row);
     }
-    $stmt_getAll->free_result();
+    $stmt->free_result();
     return $out;
 }
 
@@ -34,11 +33,11 @@ function getFullQueue(){
  * @return int The number of rows in the queue
  * */
 function getQueueLength(){
-    global $stmt_getAll;
-    $stmt_getAll->execute();
-    $stmt_getAll->store_result();
-    $rows = $stmt_getAll->num_rows;
-    $stmt_getAll->free_result();
+    $stmt = createStatement(GET_QUEUE);
+    $stmt->execute();
+    $stmt->store_result();
+    $rows = $stmt->num_rows;
+    $stmt->free_result();
     return $rows;
 }
 
@@ -48,12 +47,27 @@ function getQueueLength(){
  * @return int The number of rows in the queue
  * */
 function getBefore($position){
-    global $stmt_getBefore;
-    $stmt_getBefore->bind_param("i" ,$position);
-    $stmt_getBefore->execute();
-    $stmt_getBefore->store_result();
-    $rows = $stmt_getBefore->num_rows;
+    $stmt = createStatement(GET_BEFORE);
+    $stmt->bind_param("i" ,$position);
+    $stmt->execute();
+    $stmt->store_result();
+    $rows = $stmt->num_rows;
     return $rows;
+}
+
+/**
+ * Get the average wait time between clients
+ * @param $timeout int Optional argument to specify max wait time to include (allows for ignoring overnights)
+ * @return int The average amount of seconds between clients being served
+ */
+function getAverageDelta($timeout=999999999){
+    $stmt = createStatement(AVERAGE_DELTA);
+    $stmt->bind_param("i", $timeout);
+    $stmt->execute();
+    $stmt->bind_result($delta);
+    $stmt->fetch();
+    $stmt->free_result();
+    return $delta;
 }
 
 /**
@@ -74,13 +88,13 @@ function getTime($position = -1){
  * @return int The highest position, plus one
  */
 function getNextAvailable(){
-    global $stmt_getMax;
+    $stmt = createStatement(GET_MAX);
     $result = null;
-    $stmt_getMax->execute();
-    $stmt_getMax->bind_result($result);
-    $stmt_getMax->fetch();
-    $stmt_getMax->store_result();
-    $stmt_getMax->free_result();
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    $stmt->store_result();
+    $stmt->free_result();
     return $result+1;
 }
 
@@ -89,13 +103,13 @@ function getNextAvailable(){
  * @return int The row with the lowest position
  */
 function getNextServed(){
-    global $stmt_getMin;
+    $stmt = createStatement(GET_MIN);
     $result = null;
-    $stmt_getMin->execute();
-    $stmt_getMin->bind_result($result);
-    $stmt_getMin->fetch();
-    $stmt_getMin->store_result();
-    $stmt_getMin->free_result();
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    $stmt->store_result();
+    $stmt->free_result();
     return $result;
 }
 
@@ -105,13 +119,13 @@ function getNextServed(){
  * @return array Row in specified position
 */
 function getEntry($position){
-    global $stmt_getEntry;
-    $stmt_getEntry->bind_param("i", $position);
-    $stmt_getEntry->execute();
-//    $stmt_getEntry->bind_result($result);
-//    $stmt_getEntry->fetch();
-    $result = $stmt_getEntry->get_result()->fetch_assoc();
-    $stmt_getEntry->free_result();
+    $stmt=createStatement(GET_CLIENT);
+    $stmt->bind_param("i", $position);
+    $stmt->execute();
+//    $stmt->bind_result($result);
+//    $stmt->fetch();
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->free_result();
     return $result;
 }
 
@@ -127,18 +141,18 @@ function getEntry($position){
  * @return bool true if added successfully
  */
 function addToQueue($name, $email, $phone, $transac, &$pos=-1, &$code=''){
-    global $stmt_add;
+    $stmt = createStatement(ADD_CLIENT);
     $pos = getNextAvailable();
     $UUID = substr(preg_replace("/[\.\/]/", "",password_hash($name, CRYPT_MD5)), 7,5);
     $UUID = strtoupper($UUID);
-    $stmt_add->bind_param("isssss", $pos, $UUID,$name, $email, $phone, $transac);
-    $stmt_add->execute();
-    if($stmt_add->error == ""){
+    $stmt->bind_param("isssss", $pos, $UUID,$name, $email, $phone, $transac);
+    $stmt->execute();
+    if($stmt->error == ""){
         $code = $UUID;
         return true;
     } else {
         $pos = -1;
-        $code = $stmt_add->error;
+        $code = $stmt->error;
         return false;
     }
 }
@@ -148,10 +162,10 @@ function addToQueue($name, $email, $phone, $transac, &$pos=-1, &$code=''){
  * @return array The latest row archived
  */
 function getLastArchived(){
-    global $stmt_getLatestArchive;
-    $stmt_getLatestArchive->execute();
-    $result = $stmt_getLatestArchive->get_result()->fetch_assoc();
-    $stmt_getLatestArchive->free_result();
+    $stmt = createStatement(LATEST_ARCHIVED);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->free_result();
     return $result;
 }
 
@@ -161,16 +175,16 @@ function getLastArchived(){
  * @param $code int The accompanying code
 */
 function delete($position, $code){
-    global $stmt_remove;
-    $stmt_remove->bind_param("is", $position, $code);
-    $stmt_remove->execute();
+    $stmt = createStatement(REMOVE_CLIENT);
+    $stmt->bind_param("is", $position, $code);
+    $stmt->execute();
 }
 
 /**
  * Remove the person at the top of the queue, and add them to the archive
 */
 function removeFromQueue(){
-    global $stmt_archive;
+    $stmt = createStatement(ARCHIVE_CLIENT);
     $data = getEntry(getNextServed());
     $currentTime = time();
     $joinTime = strtotime($data["time"]);
@@ -180,8 +194,8 @@ function removeFromQueue(){
     echo "Timestamps: ".$currentTime."--".strtotime($prev["processed"])."<br/>";
     $betweenTime = $currentTime-strtotime($prev["processed"]);
     echo $currentTime." | ".$joinTime." | ".date("d H:i:s", $waitTime)." | ". date("d H:i:s", $betweenTime) . "<br/>";
-    $stmt_archive->bind_param("iiii",$joinTime, $currentTime, $waitTime, $betweenTime);
-    $stmt_archive->execute();
-    echo "ERROR: ".$stmt_archive->error;
+    $stmt->bind_param("iiii",$joinTime, $currentTime, $waitTime, $betweenTime);
+    $stmt->execute();
+    echo "ERROR: ".$stmt->error;
     delete($data["position"], $data["code"]);
 }
