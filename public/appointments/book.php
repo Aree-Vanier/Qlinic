@@ -1,4 +1,7 @@
-<?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php
+include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
+include_once(BACKEND."/appointments.php")
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -47,8 +50,11 @@
                 <td>Doctor</td>
                 <td>
                     <select>
-                        <option value="0">Dr. Brown</option>
-                        <option value="1">Dr. Flowers</option>
+                        <?php
+                            foreach(getServers() as $id=>$name){
+                                echo "<option value='$id'>$name</option>";
+                            }
+                        ?>
                     </select>
                 </td>
             </tr>

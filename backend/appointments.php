@@ -58,6 +58,22 @@ function getAllPossibleTimes($date){
 }
 
 /**
+ * Get the server names and IDs
+ * @return array Assoc array of servers, indexed by ID
+*/
+function getServers(){
+    $stmt = createStatement(GET_DOCS);
+    $stmt->execute();
+    $out = [];
+    $stmt->bind_result($ID, $server);
+    while($stmt->fetch()){
+        $out[$ID] = $server;
+    }
+    $stmt->free_result();
+    return $out;
+}
+
+/**
  * Get basic information for all appointments booked within a timeframe
  * @param $start int The start of the timeframe, in seconds
  * @param $end int The end of the timeframe, in seconds
