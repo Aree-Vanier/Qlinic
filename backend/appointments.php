@@ -133,7 +133,7 @@ function book($firstname, $lastname, $server, $date, $time, $length, $reason, $e
     //Create unique code
     $code = substr(MD5($firstname.$lastname.$time), 0,5);
     $stmt->bind_param("ssiiiisssss", $firstname, $lastname, $server, $date, $time, $length, $reason, $email, $phone, $code, $transac);
-//    $stmt->execute();
+    $stmt->execute();
     if($stmt->error == ""){
         return true;
     } else {

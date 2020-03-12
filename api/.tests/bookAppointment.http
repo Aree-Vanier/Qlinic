@@ -9,7 +9,7 @@
 POST http://localhost/api/appointments/book
 Content-Type: application/x-www-form-urlencoded
 
-firstName=Firstname&lastName=Last&server=1&date=121115&time=3600&reason=I%20was%20sick&email=&phone=
+firstName=Firstname&lastName=Lastname&server=1&date=121115&time=3600&reason=I%20was%20sick&email=&phone=
 ###
 ###
 ###

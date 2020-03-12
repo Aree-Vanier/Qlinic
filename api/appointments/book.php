@@ -10,19 +10,25 @@ if(!checkPost(["firstName","lastName","server","date","time","reason","email","p
     exit(0);
 }
 
-$firstName = urldecode($_POST["firstName"]);
-$lastName = urldecode($_POST["lastName"]);
-$server = urldecode($_POST["server"]);
-$date = urldecode($_POST["date"]);
-$time = urldecode($_POST["time"]);
-$reason = urldecode($_POST["reason"]);
-$email = urldecode($_POST["email"]);
-$phone = urldecode($_POST["phone"]);
+$firstName = sanitizeInput($_POST["firstName"]);
+$lastName = sanitizeInput($_POST["lastName"]);
+$server = sanitizeInput($_POST["server"]);
+$date = sanitizeInput($_POST["date"]);
+$time = sanitizeInput($_POST["time"]);
+$reason = sanitizeInput($_POST["reason"]);
+$email = sanitizeInput($_POST["email"]);
+$phone = sanitizeInput($_POST["phone"]);
 
 $transac = MD5($firstName.$lastName.$server.$date.$time.getIP());
 
-$stmt = createStatement("SELECT code FROM qlinic.booked WHERE transac LIKE(?)");
-$stmt->bind_param();
+$stmt = createStatement("SELECT code FROM qlinic.booked WHERE transac LIKE ?");
+$stmt->bind_param("s", $transac);
+$stmt->execute();
+$result = $stmt->get_result();
+if($result->num_rows > 0){
+    die("ERROR:Duplicate request");
+}
+$stmt->free_result();
 
 book($firstName, $lastName, $server, $date, $time, $headless, $reason, $email, $phone, $transac, $code);
 
