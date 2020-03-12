@@ -8,7 +8,7 @@ define("GET_ALL_BOOKED", "SELECT * from qlinic.booked ORDER BY date");
 define("GET_BY_DATE", "SELECT (date+time) FROM qlinic.booked WHERE date = ?");
 define("GET_BY_DATE_AND_SERVER", "SELECT (date+time) FROM qlinic.booked WHERE date = ? AND server = ?");
 define("GET_ALL_IN_RANGE", "SELECT (date+time),server,length,code FROM qlinic.booked WHERE date>? AND date<?");
-
+define("BOOK_APPOINTMENT", "INSERT INTO qlinic.booked (firstname, lastname, server, date, time, length, reason, email, phone, code, transac) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
 /**
  * Get a list of possible times for a specific doctor
@@ -128,6 +128,19 @@ function getAvailable($date){
     return $out;
 }
 
+function book($firstname, $lastname, $server, $date, $time, $length, $reason, $email, $phone, $transac, &$code){
+    $stmt = createStatement(BOOK_APPOINTMENT);
+    //Create unique code
+    $code = substr(MD5($firstname.$lastname.$time), 0,5);
+    $stmt->bind_param("ssiiiisssss", $firstname, $lastname, $server, $date, $time, $length, $reason, $email, $phone, $code, $transac);
+//    $stmt->execute();
+    if($stmt->error == ""){
+        return true;
+    } else {
+        $code = $stmt->error;
+        return false;
+    }
+}
 
 
 
