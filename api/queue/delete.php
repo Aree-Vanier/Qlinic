@@ -8,8 +8,8 @@ if(!checkPost(["code","position"], $missing)){
     echo "ERROR:Missing args: ".join(",",$missing);
     exit(0);
 }
-$code = $_POST["code"];
-$position = $_POST["position"];
+$code = sanitizeInput($_POST["code"]);
+$position = sanitizeInput($_POST["position"]);
 
 delete($position,$code);
 ?>
