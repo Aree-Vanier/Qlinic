@@ -34,11 +34,12 @@
                 <td>Date</td>
                 <td>
                     <select>
-                        <option value="0">Today</option>
-                        <option value="1">Monday 03</option>
-                        <option value="2">Tuesday 04</option>
-                        <option value="3">Wednesday 05</option>
-                        <option value="4">Thursday 06</option>
+                        <?php
+                            for($i=0; $i<14; $i++){
+                                $date = date("D M d", strtotime("today midnight")+3600*24*$i);
+                                echo "<option value=$i>$date   </option>";
+                            }
+                        ?>
                     </select>
                 </td>
             </tr>
