@@ -134,10 +134,10 @@ function getAvailable($date){
     $possible = getAllPossibleTimes($date);
     $out = [];
     foreach($possible as $server=>$times){
-        echo $server.":<br/>";
-        echo implode(",", $times)."<br/>";
+//        echo $server.":<br/>";
+//        echo implode(",", $times)."<br/>";
         $booked = getBookedOnDate($date, $server);
-        echo implode(",", $booked)."<br/>";
+//        echo implode(",", $booked)."<br/>";
         $available = array_diff($times, $booked);
         $out[$server] = $available;
     }
