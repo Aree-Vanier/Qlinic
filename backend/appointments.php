@@ -5,7 +5,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 define("GET_DOCS", "SELECT ID,server FROM qlinic.available");
 define("GET_DOC_INFO", "SELECT * FROM qlinic.available WHERE ID = ?");
 define("GET_ALL_BOOKED", "SELECT * from qlinic.booked ORDER BY date");
-define("GET_BY_DATE", "SELECT (date+time) FROM qlinic.booked WHERE date = ?");
+define("GET_BY_DATE", "SELECT (date+time) FROM qlinic.booked WHERE date = ? ORDER BY time");
 define("GET_BY_DATE_AND_SERVER", "SELECT (date+time) FROM qlinic.booked WHERE date = ? AND server = ?");
 define("GET_ALL_IN_RANGE", "SELECT (date+time),server,length,code FROM qlinic.booked WHERE date>? AND date<?");
 

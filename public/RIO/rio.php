@@ -239,7 +239,9 @@
             </div>
         </div>
         <div class="calendar">
-            
+        <?php
+            include "/calendar.php";
+        ?>
         </div>
     </section>
 </div>
