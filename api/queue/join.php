@@ -8,9 +8,9 @@ if(!checkPost(["name", "email", "phone"], $missing)){
     echo "ERROR:Missing args: ".join(",",$missing);
     exit(0);
 }
-$name = urldecode($_POST["name"]);
-$email = urldecode($_POST["email"]);
-$phone = $_POST["phone"];
+$name = sanitizeInput($_POST["name"]);
+$email = sanitizeInput($_POST["email"]);
+$phone = sanitizeInput($_POST["phone"]);
 $phone = str_replace("-", "", $phone);
 
 

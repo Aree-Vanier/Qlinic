@@ -42,6 +42,19 @@
         return count($missing) == 0;
     }
 
+    /**
+     * Sanitize user input to prevent XSS attacks
+     * @param $input string The input string to sanitize
+     * @param $URLDecode boolean If true, will run urlDecode
+     * @return string The sanitized string
+    */
+    function sanitizeInput($input, $URLDecode=true){
+        if($URLDecode) {
+            $input = urldecode($input);
+        }
+        return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+    }
+
 // Function to get the client IP address
 // From:https://stackoverflow.com/questions/15699101/get-the-client-ip-address-using-php
 function getIP() {
