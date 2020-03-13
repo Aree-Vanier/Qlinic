@@ -101,4 +101,3 @@ function getIP() {
         $ipaddress = 'UNKNOWN';
     return $ipaddress;
 }
-

@@ -5,15 +5,33 @@ include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 define("GET_DOCS", "SELECT ID,server FROM qlinic.available");
 define("GET_DOC_INFO", "SELECT * FROM qlinic.available WHERE ID = ?");
 define("GET_ALL_BOOKED", "SELECT * from qlinic.booked ORDER BY date");
-define("GET_BY_DATE", "SELECT (date+time) FROM qlinic.booked WHERE date = ?");
-define("GET_BY_DATE_AND_SERVER", "SELECT (date+time) FROM qlinic.booked WHERE date = ? AND server = ?");
-define("GET_ALL_IN_RANGE", "SELECT (date+time),server,length,code FROM qlinic.booked WHERE date>? AND date<?");
+define("GET_BY_DATE", "SELECT (UNIX_TIMESTAMP(date)+time) FROM qlinic.booked WHERE date = ?");
+define("GET_BY_DATE_AND_SERVER", "SELECT (UNIX_TIMESTAMP(date)+time) FROM qlinic.booked WHERE date = ? AND server = ?");
+define("GET_ALL_IN_RANGE", "SELECT (UNIX_TIMESTAMP(date)+time),server,length,code FROM qlinic.booked WHERE date>? AND date<?");
 define("BOOK_APPOINTMENT", "INSERT INTO qlinic.booked (firstname, lastname, server, date, time, length, reason, email, phone, code, transac) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+
+function getDateString($timestamp){
+    if(gettype($timestamp) == "string"){
+        return $timestamp;
+    }
+    return date("Y-m-d", (int) $timestamp);
+}
+
+function getDateTimestamp($date){
+    //Make it unix representation
+    if(gettype($date) == "string"){
+        $date = strtotime($date);
+    }
+    //Trim time
+    $date = date("Y-m-d", $date);
+    //Return unix
+    return strtotime($date);
+}
 
 /**
  * Get a list of possible times for a specific doctor
  * @param $server int ID of the target server
- * @param $date int UNIX timestamp for 0:00 (midnight) on selected date
+ * @param $date mixed UNIX timestamp for 0:00 (midnight) on selected date, or string in format YYYY-MM-DD
  * @return array list of possible times, in unix timestamps
 */
 function getDocPossibleTimes($date, $server){
@@ -23,6 +41,7 @@ function getDocPossibleTimes($date, $server){
     $result=$stmt->get_result()->fetch_assoc();
     $stmt->free_result();
 
+    $date = getDateTimestamp($date);
     $start = $date + $result["start"];
     $end = $date + $result["end"];
     $len = $result["len"];
@@ -37,7 +56,7 @@ function getDocPossibleTimes($date, $server){
 
 /**
  * Get the possible times for all doctors
- * @param $date int Target day
+ * @param $date mixed Target day
  * @return array This list of available times sorted by doctor
 */
 function getAllPossibleTimes($date){
@@ -75,13 +94,15 @@ function getServers(){
 
 /**
  * Get basic information for all appointments booked within a timeframe
- * @param $start int The start of the timeframe, in seconds
- * @param $end int The end of the timeframe, in seconds
+ * @param $start mixed The start of the timeframe
+ * @param $end mixed The end of the timeframe
  * @return array Associative array containing: server, time, length, and code
  */
 function getInRange($start, $end){
+    $stat = getDateString($start);
+    $end = getDateString($end);
     $stmt = createStatement(GET_ALL_IN_RANGE);
-    $stmt->bind_param("ii", $start, $end);
+    $stmt->bind_param("ss", $start, $end);
     $stmt->execute();
     $stmt->bind_result($time, $server,$len,$code);
     $stmt->store_result();
@@ -97,22 +118,24 @@ function getInRange($start, $end){
  * Get all booked appointments
 */
 function getAllAppointments(){
-    return getInRange(0,999999999999);
+    return getInRange(0,"2038-01-01");
 }
 
 /**
  * Get appointments booked on a specific date
- * @param $date int The unix timestamp for midnight on the target date
+ * @param $date mixed The unix timestamp for midnight on the target date or date string in format YYYY-MM-DD
  * @param $server int The ID of the server. If left null will get all servers.
  * @return array The list of booked appointment timestamps
  */
 function getBookedOnDate($date, $server=null){
+    $date = getDateString($date);
+    print($date."<br/>");
     if($server==null){
         $stmt = createStatement(GET_BY_DATE);
-        $stmt->bind_param("i", $date);
+        $stmt->bind_param("s", $date);
     } else {
         $stmt = createStatement(GET_BY_DATE_AND_SERVER);
-        $stmt->bind_param("ii", $date, $server);
+        $stmt->bind_param("si", $date, $server);
     }
     $stmt->execute();
     $stmt->bind_result($time);
@@ -127,7 +150,7 @@ function getBookedOnDate($date, $server=null){
 
 /**
  * Get available appointment slots on a given date
- * @param $date int The unix timestamp for midnight on the target date
+ * @param $date mixed The unix timestamp for midnight on the target date, or string in format YYYY-MM-DD
  * @return array Associative array with array of times under server IDs
 */
 function getAvailable($date){
@@ -148,7 +171,7 @@ function book($firstname, $lastname, $server, $date, $time, $length, $reason, $e
     $stmt = createStatement(BOOK_APPOINTMENT);
     //Create unique code
     $code = substr(MD5($firstname.$lastname.$time), 0,5);
-    $stmt->bind_param("ssiiiisssss", $firstname, $lastname, $server, $date, $time, $length, $reason, $email, $phone, $code, $transac);
+    $stmt->bind_param("ssisiisssss", $firstname, $lastname, $server, $date, $time, $length, $reason, $email, $phone, $code, $transac);
     $stmt->execute();
     if($stmt->error == ""){
         return true;
