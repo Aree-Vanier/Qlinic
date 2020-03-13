@@ -3,8 +3,7 @@
 	session_start();
 ?>
 <?php
-		if ($_SESSION['loggedin'] == false || isset($_SESSION['loggedin']) == false)
-		{
+        if(!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'])){
 			echo($_SESSION['loggedin']);
 			header("Location: http://localhost/RIO/rlogin");
 			exit();

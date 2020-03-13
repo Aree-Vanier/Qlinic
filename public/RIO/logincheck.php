@@ -11,7 +11,7 @@ session_start();
 			$username = ($row['name']);
 			$pass = ($row['password']);
 
-			if($_POST['login'] == $username && $_POST['password'] == $pass)
+			if($_POST['login'] == $username && password_verify($_POST['password'], $pass))
 			{
 				$_SESSION['loggedin'] = true;
 				//echo ("REDIR RIO");
