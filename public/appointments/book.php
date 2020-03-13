@@ -9,6 +9,34 @@ include_once(BACKEND."/appointments.php")
     <?php include(META) ?>
     <script src="/scripts/forms.js"></script>
     <script src="/scripts/scroller.js"></script>
+
+    <script>
+        function updateTimes(){
+            date = Date.now()/1000 + document.getElementById("date").value*24*3600;
+            console.log(date);
+            server = document.getElementById("server").value;
+            console.log(server);
+
+            $.ajax(`timeSelector?date=${date}&server=${server}`, {success: function(result){
+                console.log(result);
+                let selected = document.getElementById("time").value;
+                document.getElementById("times").innerHTML=result;
+                new SimpleBar(document.getElementById("timeScroller"), {
+                    timeout:750,
+                });
+                try {
+                    document.getElementById(selected).classList.add("selected");
+                }catch (e) {
+                    console.log("No item selected");
+                }
+
+                initScrollers();
+            }})
+        }
+
+
+
+    </script>
 </head>
 
 <body>
@@ -36,7 +64,7 @@ include_once(BACKEND."/appointments.php")
             <tr>
                 <td>Date</td>
                 <td>
-                    <select>
+                    <select id="date" onchange="updateTimes()">
                         <?php
                             for($i=0; $i<14; $i++){
                                 $date = date("D M d", strtotime("today midnight")+3600*24*$i);
@@ -49,7 +77,7 @@ include_once(BACKEND."/appointments.php")
             <tr>
                 <td>Doctor</td>
                 <td>
-                    <select>
+                    <select id="server" onchange="updateTimes()">
                         <?php
                             foreach(getServers() as $id=>$name){
                                 echo "<option value='$id'>$name</option>";
@@ -60,7 +88,7 @@ include_once(BACKEND."/appointments.php")
             </tr>
             <tr>
                 <td>Time</td>
-                <td>
+                <td id="times">
                     <?php include "timeSelector.php"?>
                 </td>
             </tr>

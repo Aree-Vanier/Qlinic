@@ -11,7 +11,7 @@ define("GET_ALL_IN_RANGE", "SELECT (UNIX_TIMESTAMP(date)+time),server,length,cod
 define("BOOK_APPOINTMENT", "INSERT INTO qlinic.booked (firstname, lastname, server, date, time, length, reason, email, phone, code, transac) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
 function getDateString($timestamp){
-    if(gettype($timestamp) == "string"){
+    if(!is_numeric($timestamp)){
         return $timestamp;
     }
     return date("Y-m-d", (int) $timestamp);
@@ -19,7 +19,7 @@ function getDateString($timestamp){
 
 function getDateTimestamp($date){
     //Make it unix representation
-    if(gettype($date) == "string"){
+    if(!is_numeric($date)){
         $date = strtotime($date);
     }
     //Trim time
@@ -129,7 +129,6 @@ function getAllAppointments(){
  */
 function getBookedOnDate($date, $server=null){
     $date = getDateString($date);
-    print($date."<br/>");
     if($server==null){
         $stmt = createStatement(GET_BY_DATE);
         $stmt->bind_param("s", $date);
