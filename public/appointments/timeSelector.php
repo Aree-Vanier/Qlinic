@@ -5,7 +5,6 @@ include_once(BACKEND."/appointments.php")
 ?>
 
 <div class="scroller" style="height: 14em" id="timeScroller">
-    <input class="scrollerInput" id="time" type="hidden" value="">
 
     <?php
         $times = getAvailable($_GET["date"])[$_GET["server"]];
@@ -17,4 +16,6 @@ include_once(BACKEND."/appointments.php")
         }
 
         ?>
+
+    <input class="scrollerInput" name="time" id="time" value="" hidden>
 </div>

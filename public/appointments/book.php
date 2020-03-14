@@ -10,6 +10,7 @@ include_once(BACKEND."/appointments.php");
     <?php include(META) ?>
     <script src="/scripts/forms.js"></script>
     <script src="/scripts/scroller.js"></script>
+    <script src="/scripts/dialog.js"></script>
 
     <script>
         function updateTimes(){
@@ -33,18 +34,49 @@ include_once(BACKEND."/appointments.php");
                 initScrollers();
             }})
         }
+
+        var errorDiag = new Dialog({
+            title:"No timeslot selected",
+            id:"errorDiag",
+            content:"Please select a timeslot",
+            buttons:[
+                {
+                    text:"Confirm",
+                    onclick:"errorDiag.hide()"
+                }
+            ]
+        });
+
         $(document).ready(function () {
             console.log("Loaded");
             updateTimes();
+            errorDiag.create(errorDiag);
         });
 
-        function bookAppointment(){
+        function onSubmit(){
             let server = document.getElementById("server").value;
             let time = document.getElementById("time").value;
             let name = document.getElementById("name").value;
             let email = document.getElementById("email").value;
             let phone = document.getElementById("phone").value;
             let reason = document.getElementById("email").value;
+
+            if(time === ""){
+                errorDiag.show();
+                return false;
+            }
+
+            name = name.split(" ");
+            let firstName = name[0];
+            let lastName="";
+            if(name.length > 1) {
+                lastName = name[1];
+            }
+
+            $.post("/api/appointments/book", {server, time, firstName, lastName, email, phone, reason}, function(data, status){
+                console.log(data);
+            });
+            return false;
         }
 
 
@@ -56,7 +88,7 @@ include_once(BACKEND."/appointments.php");
 
 <section>
     <h1>Book Appointment</h1>
-    <form>
+    <form onsubmit="return onSubmit()">
         <table>
             <tr>
                 <td>Name</td>
