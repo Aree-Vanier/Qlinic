@@ -1,6 +1,7 @@
 <?php
 include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
-include_once(BACKEND."/appointments.php")
+include_once(BACKEND."/appointments.php");
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,7 +19,6 @@ include_once(BACKEND."/appointments.php")
             console.log(server);
 
             $.ajax(`timeSelector?date=${date}&server=${server}`, {success: function(result){
-                console.log(result);
                 let selected = document.getElementById("time").value;
                 document.getElementById("times").innerHTML=result;
                 new SimpleBar(document.getElementById("timeScroller"), {
@@ -33,7 +33,10 @@ include_once(BACKEND."/appointments.php")
                 initScrollers();
             }})
         }
-
+        $(document).ready(function () {
+            console.log("Loaded");
+            updateTimes();
+        })
 
 
     </script>
@@ -69,6 +72,9 @@ include_once(BACKEND."/appointments.php")
                             for($i=0; $i<14; $i++){
                                 $date = date("D M d", strtotime("today midnight")+3600*24*$i);
                                 echo "<option value=$i>$date   </option>";
+                                if(!isset($_GET["date"])){
+                                    $_GET["date"]=strtotime("today midnight")+3600*24*$i;
+                                }
                             }
                         ?>
                     </select>
@@ -81,6 +87,9 @@ include_once(BACKEND."/appointments.php")
                         <?php
                             foreach(getServers() as $id=>$name){
                                 echo "<option value='$id'>$name</option>";
+                                if(!isset($_GET["server"])){
+                                    $_GET["server"]=$id;
+                                }
                             }
                         ?>
                     </select>
