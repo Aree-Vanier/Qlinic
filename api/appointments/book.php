@@ -3,7 +3,6 @@ $headless = true;
 include_once $_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php";
 include_once BACKEND."/appointments.php";
 
-echo "Booking appointment<br/>\n";
 $missing = [];
 if(!checkPost(["firstName","lastName","server","time","reason","email","phone"], $missing)){
     echo "ERROR:Missing args: ".join(",",$missing);
@@ -20,8 +19,6 @@ $phone = sanitizeInput($_POST["phone"]);
 
 $date = getDateString($time);
 $time = $time-getDateTimestamp($date);
-
-echo "$date, $time<br/>";
 
 
 $transac = MD5($firstName.$lastName.$server.$date.$time.getIP());

@@ -79,6 +79,7 @@ include_once(BACKEND."/appointments.php");
             return false;
         }
 
+        setInterval(updateTimes, 120000)
 
     </script>
 </head>
