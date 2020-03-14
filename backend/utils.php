@@ -25,8 +25,8 @@
     if($conn->connect_error){
         echo("Connection Failed" . $conn->connect_error);
     }
-    $conn->query("SET time_zone -5:00");
-    date_default_timezone_set("EST");
+    $conn->query("SET time_zone -4:00");
+    date_default_timezone_set("America/Toronto");
 
 
     /**

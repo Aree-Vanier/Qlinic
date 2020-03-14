@@ -5,7 +5,7 @@ include_once BACKEND."/appointments.php";
 
 echo "Booking appointment<br/>\n";
 $missing = [];
-if(!checkPost(["firstName","lastName","server","date","time","reason","email","phone"], $missing)){
+if(!checkPost(["firstName","lastName","server","time","reason","email","phone"], $missing)){
     echo "ERROR:Missing args: ".join(",",$missing);
     exit(0);
 }
@@ -13,11 +13,16 @@ if(!checkPost(["firstName","lastName","server","date","time","reason","email","p
 $firstName = sanitizeInput($_POST["firstName"]);
 $lastName = sanitizeInput($_POST["lastName"]);
 $server = sanitizeInput($_POST["server"]);
-$date = sanitizeInput($_POST["date"]);
 $time = sanitizeInput($_POST["time"]);
 $reason = sanitizeInput($_POST["reason"]);
 $email = sanitizeInput($_POST["email"]);
 $phone = sanitizeInput($_POST["phone"]);
+
+$date = getDateString($time);
+$time = $time-getDateTimestamp($date);
+
+echo "$date, $time<br/>";
+
 
 $transac = MD5($firstName.$lastName.$server.$date.$time.getIP());
 

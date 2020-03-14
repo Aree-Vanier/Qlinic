@@ -13,9 +13,9 @@ include_once(BACKEND."/appointments.php");
 
     <script>
         function updateTimes(){
-            date = Date.now()/1000 + document.getElementById("date").value*24*3600;
+            let date = Date.now()/1000 + document.getElementById("date").value*24*3600;
             console.log(date);
-            server = document.getElementById("server").value;
+            let server = document.getElementById("server").value;
             console.log(server);
 
             $.ajax(`timeSelector?date=${date}&server=${server}`, {success: function(result){
@@ -36,7 +36,16 @@ include_once(BACKEND."/appointments.php");
         $(document).ready(function () {
             console.log("Loaded");
             updateTimes();
-        })
+        });
+
+        function bookAppointment(){
+            let server = document.getElementById("server").value;
+            let time = document.getElementById("time").value;
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            let reason = document.getElementById("email").value;
+        }
 
 
     </script>
