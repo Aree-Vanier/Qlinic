@@ -6,4 +6,4 @@ include BACKEND."/appointments.php";
 //echo "Getting info <br/>";
 //echo json_encode(getAvailable(1583298000));
 echo "Running<br/>";
-echo implode("<br/>", getInRange(0,99999999999));
+print_r(getBookedOnDate(1584118800));
