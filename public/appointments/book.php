@@ -36,9 +36,9 @@ include_once(BACKEND."/appointments.php");
         }
 
         var errorDiag = new Dialog({
-            title:"No timeslot selected",
+            title:"Unknown Error",
             id:"errorDiag",
-            content:"Please select a timeslot",
+            content:"An unknown error has occured",
             buttons:[
                 {
                     text:"Confirm",
@@ -62,6 +62,9 @@ include_once(BACKEND."/appointments.php");
             let reason = document.getElementById("email").value;
 
             if(time === ""){
+                errorDiag.title = "No timeslot selected";
+                errorDiag.content = "Please select a timeslot";
+                errorDiag.rebuild(errorDiag);
                 errorDiag.show();
                 return false;
             }
@@ -75,6 +78,14 @@ include_once(BACKEND."/appointments.php");
 
             $.post("/api/appointments/book", {server, time, firstName, lastName, email, phone, reason}, function(data, status){
                 console.log(data);
+                if(data.startsWith("ERROR:")){
+                    errorDiag.title="Error";
+                    errorDiag.content=data.split(":")[1];
+                    errorDiag.rebuild(errorDiag);
+                    errorDiag.show();
+                } else {
+                    window.location.replace("confirmation.php?code="+data)
+                }
             });
             return false;
         }
