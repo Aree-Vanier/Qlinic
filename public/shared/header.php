@@ -8,10 +8,10 @@
 <nav>
     <ul>
         <li class="nav-item">
-            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link active" href="/">Home</a>
         </li>
         <li class="nav-item right">
-            <a class="nav-link active" href="#">About</a>
+            <a class="nav-link active" href="/#about">About</a>
         </li>
     </ul>
 </nav>
