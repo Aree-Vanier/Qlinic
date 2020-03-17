@@ -9,6 +9,8 @@ include_once(BACKEND."/appointments.php")
     <?php
         $times = getAvailable($_GET["date"])[$_GET["server"]];
         foreach($times as $time){
+            if ($time < time())
+                continue;
             $timeString = date("g:i A", $time);
             echo "<div class='scrollItem' id='$time'>\n";
             echo "\t<span class='scrollTitle'>$timeString</span>\n";
