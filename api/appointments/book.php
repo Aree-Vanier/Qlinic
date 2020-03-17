@@ -32,6 +32,24 @@ if($result->num_rows > 0){
 }
 $stmt->free_result();
 
+echo $date.",".$server."<br/>\n";
+$available = getAvailable($date)[$server];
+
+if($time < time()){
+    die ("ERROR:Timeslot has passed");
+}
+
+$bookable = false;
+//Check if the timeslot is already in use
+foreach($available as $appt){
+    echo $appt-getDateTimestamp($date). ":".$time."<br/>\n";
+    if($appt-getDateTimestamp($date) == $time){
+        $bookable = true;
+    }
+}
+if(!$bookable) {
+    die("ERROR:Timeslot unavailable");
+}
 book($firstName, $lastName, $server, $date, $time, $headless, $reason, $email, $phone, $transac, $code);
 
-echo $code;
+//echo $code;
