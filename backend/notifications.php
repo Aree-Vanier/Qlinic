@@ -5,17 +5,10 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/backend/utils.php";
 require $_SERVER["DOCUMENT_ROOT"] . '/libs/twilio/src/Twilio/autoload.php';
 use Twilio\Rest\Client;
 // Your Account SID and Auth Token from twilio.com/console
-$account_sid = 'ACde26130a147272b1009971dffcbb4479';
-$auth_token = '209f43316b95742240fcf300a71a4652';
-// In production, these should be environment variables. E.g.:
-// $auth_token = $_ENV["TWILIO_ACCOUNT_SID"]
-// A Twilio number you own with SMS capabilities
-$twilio_number = "+12066780982";
-
 
 function sendSMS($message, $phone) {
     try {
-        $client = new Client($account_sid, $auth_token);
+        $client = new Client(TWILIO_SID, TWILIO_TOKEN);
     } catch (\Twilio\Exceptions\ConfigurationException $e) {
         echo $e;
     }
@@ -25,7 +18,7 @@ function sendSMS($message, $phone) {
         // Where to send a text message (your cell phone?)
             $phone,
             array(
-                'from' => $twilio_number,
+                'from' => TWILIO_NUMBER,
                 'body' => $message
             )
         );
