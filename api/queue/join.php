@@ -34,7 +34,8 @@ if(addToQueue($name, $email, $phone, $transacID, $pos, $code)){
 	echo "SUCCESS:".$pos."-".$code;
 	if($phone != ""){
 		$host = $_SERVER["HTTP_HOST"];
-		sendSMS("You are #$pos in queue.\nYou can review your confirmation at: https://qlinic.gregk.ca/queue/confirmation/$pos-$code", $phone);
+		$confirmation = getConfirmationLink($pos, $code);
+		sendSMS("You are #$pos in queue.\nYou can review your confirmation at: $confirmation", $phone);
 	}
 } else {
     echo "ERROR:UNKOWN";

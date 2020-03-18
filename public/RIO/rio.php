@@ -5,7 +5,7 @@
 <?php
         if(!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'])){
 			echo($_SESSION['loggedin']);
-			header("Location: http://localhost/RIO/rlogin");
+			header("Location: /RIO/rlogin");
 			exit();
 		}
 		?>

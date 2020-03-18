@@ -13,6 +13,17 @@ define("LATEST_ARCHIVED", "SELECT * FROM qlinic.archive ORDER BY processed DESC 
 define("AVERAGE_DELTA", "select AVG(delta) from qlinic.archive where delta<?;");
 
 /**
+ * Get a link to the confirmation page
+ * @param $pos int Position in queue
+ * @param $code string Confirmation code
+ * @return string Confirmation page link
+ * */
+function getConfirmationLink($pos, $code){
+	return "https://qlinic.gregk.ca/queue/confirmation/$pos-$code";
+}
+
+
+/**
  * Get the contents of the queue
  * @return array contents of the queue
  * */
