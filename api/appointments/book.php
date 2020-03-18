@@ -2,6 +2,7 @@
 $headless = true;
 include_once $_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php";
 include_once BACKEND."/appointments.php";
+include_once BACKEND."/notifications.php";
 
 $missing = [];
 if(!checkPost(["firstName","lastName","server","time","reason","email","phone"], $missing)){
@@ -35,7 +36,7 @@ $stmt->free_result();
 echo $date.",".$server."<br/>\n";
 $available = getAvailable($date)[$server];
 
-if($time < time()){
+if($time+strToTime($date) < time()){
     die ("ERROR:Timeslot has passed");
 }
 
@@ -52,4 +53,8 @@ if(!$bookable) {
 }
 book($firstName, $lastName, $server, $date, $time, $headless, $reason, $email, $phone, $transac, $code);
 
+$serverName = getServers()[$server];
+$timestr = date("D M jS \a\\t g:i A", $time+strToTime($date));
+
+sendSMS("Appointment booked with $serverName on $timestr.\nConfirmation code: $code", $phone);
 //echo $code;
