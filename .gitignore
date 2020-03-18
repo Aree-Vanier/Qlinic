@@ -90,3 +90,6 @@ fabric.properties
 .idea/**/markdown-navigator/
 
 # End of https://www.gitignore.io/api/phpstorm
+.cred.php
+*.swp
+*.vim

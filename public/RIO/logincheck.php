@@ -15,7 +15,7 @@ session_start();
 			{
 				$_SESSION['loggedin'] = true;
 				//echo ("REDIR RIO");
-				header("Location: http://localhost/RIO/rio");
+				header("Location: /RIO/rio");
 				exit();
 			}
 		
@@ -24,7 +24,7 @@ session_start();
 		$conn->close();
 		$_SESSION['loggedin'] = false;
 		//echo ("REDIR login");
-		header("Location: http://localhost/RIO/rlogin");
+		header("Location: /RIO/rlogin");
 		exit();
 		
    }

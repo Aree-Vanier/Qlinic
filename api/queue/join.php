@@ -1,7 +1,8 @@
 <?php
 $headless = true;
-include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
-include (BACKEND."/queue.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
+include_once(BACKEND."/queue.php");
+include_once(BACKEND."/notifications.php");
 
 $missing = [];
 if(!checkPost(["name", "email", "phone"], $missing)){
@@ -30,7 +31,12 @@ $stmt->free_result();
 $pos = null;
 $code = null;
 if(addToQueue($name, $email, $phone, $transacID, $pos, $code)){
-    echo "SUCCESS:".$pos."-".$code;
+	echo "SUCCESS:".$pos."-".$code;
+	if($phone != ""){
+		$host = $_SERVER["HTTP_HOST"];
+		$confirmation = getConfirmationLink($pos, $code);
+		sendSMS("You are #$pos in queue.\nYou can review your confirmation at: $confirmation", $phone);
+	}
 } else {
     echo "ERROR:UNKOWN";
 }

@@ -16,12 +16,9 @@
     define("BACKEND", ROOT."/backend");
 
     include(BACKEND."/config.php");
+    include(BACKEND."/.cred.php");
 
-    $serverName = "qlinic.gregk.ca";
-    $username = "dev";
-    $password = "#Qlinic2020";
-
-    $conn = new mysqli($serverName, $username, $password, "qlinic");
+    $conn = new mysqli(DB_ADDRESS, DB_USER, DB_PASS, "qlinic");
     if($conn->connect_error){
         echo("Connection Failed" . $conn->connect_error);
     }

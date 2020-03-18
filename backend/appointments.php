@@ -10,6 +10,7 @@ define("GET_BY_DATE_AND_SERVER", "SELECT (UNIX_TIMESTAMP(date)+time) FROM qlinic
 define("GET_ALL_IN_RANGE", "SELECT (UNIX_TIMESTAMP(date)+time),server,length,code FROM qlinic.booked WHERE date>? AND date<?");
 define("BOOK_APPOINTMENT", "INSERT INTO qlinic.booked (firstname, lastname, server, date, time, length, reason, email, phone, code, transac) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 define("GET_APPOINTMENT_DETAILS", "SELECT * from qlinic.booked WHERE code = ?");
+define("REMOVE_APPOINTMENT", "DELETE FROM qlinic.booked WHERE code = ?");
 
 function getDateString($timestamp){
     if(!is_numeric($timestamp)){
@@ -27,6 +28,13 @@ function getDateTimestamp($date){
     $date = date("Y-m-d", $date);
     //Return unix
     return strtotime($date);
+}
+
+function removeAppointment($code){
+    $stmt = createStatement(REMOVE_APPOINTMENT);
+    $stmt->bind_param("s", $code);
+    $stmt->execute();
+    $stmt->free_result();
 }
 
 function getAppointmentDetails($code){

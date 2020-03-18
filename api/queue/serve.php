@@ -1,7 +1,8 @@
 <?php
 $headless = true;
-include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
-include (BACKEND."/queue.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
+include_once(BACKEND."/queue.php");
+include_once(BACKEND."/notifications.php");
 
 session_start();
 if(!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'])){
@@ -17,3 +18,19 @@ if(!checkPost([], $missing)){
 //$position = $_POST["position"];
 
 removeFromQueue();
+
+$current = getEntry(getNextServed());
+
+if($current["phone"] != ""){
+	$pos = $current["position"];
+	$code = $current["code"];
+	sendSMS("You're being served.\n$pos-$code", $current["phone"]);
+}
+
+$warn = getEntry($current["position"]+$warnAhead);
+if(isset($warn["phone"]) && $warn["phone"] != null){
+	$link = getConfirmationLink($warn["position"], $warn["code"]);
+	sendSMS("You will be served shortly, please make your way to the clinic.\nAdditionally, please have the confirmation page ready.\n$link", $warn["phone"]);
+}
+
+
