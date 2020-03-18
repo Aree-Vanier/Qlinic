@@ -10,7 +10,7 @@ function sendSMS($message, $phone) {
     try {
         $client = new Client(TWILIO_SID, TWILIO_TOKEN);
     } catch (\Twilio\Exceptions\ConfigurationException $e) {
-        echo $e;
+        //echo $e;
     }
 
     try {
@@ -23,6 +23,6 @@ function sendSMS($message, $phone) {
             )
         );
     } catch (\Twilio\Exceptions\TwilioException $e) {
-        echo "Send failed:" . $e;
+       // echo "Send failed:" . $e;
     }
 }

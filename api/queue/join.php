@@ -1,7 +1,8 @@
 <?php
 $headless = true;
-include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
-include (BACKEND."/queue.php");
+include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php");
+include_once(BACKEND."/queue.php");
+include_once(BACKEND."/notifications.php");
 
 $missing = [];
 if(!checkPost(["name", "email", "phone"], $missing)){
@@ -30,7 +31,11 @@ $stmt->free_result();
 $pos = null;
 $code = null;
 if(addToQueue($name, $email, $phone, $transacID, $pos, $code)){
-    echo "SUCCESS:".$pos."-".$code;
+	echo "SUCCESS:".$pos."-".$code;
+	if($phone != ""){
+		$host = $_SERVER["HTTP_HOST"];
+		sendSMS("You are #$pos in queue.\nYou can review your confirmation at: https://qlinic.gregk.ca/queue/confirmation/$pos-$code", $phone);
+	}
 } else {
     echo "ERROR:UNKOWN";
 }
