@@ -78,6 +78,25 @@
         return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
     }
 
+    function formatDuration($seconds, $includeSeconds=false){
+	    $minutes = 0;
+	    $hours = 0;
+	    if($seconds > 60){
+	    	$minutes = (int) $seconds/60;
+		$seconds = $seconds % 60;
+	    }
+	    if($minutes > 60){
+	    	$hours = (int) $minutes/60;
+		$minutes = $minutes % 60;
+	    }
+
+	    if($includeSeconds){
+	    	return "$hours:$minutes:$seconds";
+	    }
+	    return "$hours:$minutes";
+    
+    }
+
 // Function to get the client IP address
 // From:https://stackoverflow.com/questions/15699101/get-the-client-ip-address-using-php
 function getIP() {

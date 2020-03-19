@@ -35,14 +35,14 @@ td{
 .queueTitle{
     background-color:#3a5491;
     color:white;
-    height:2em;
+    height:4em;
 }
 
 .queueItem{
     background-color:whitesmoke;
 }
 .queueItem td{
-    font-size: 4em;
+    font-size: 6em;
 }
 
 #time{

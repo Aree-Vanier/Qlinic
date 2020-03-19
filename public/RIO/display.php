@@ -1,11 +1,36 @@
-<?php //include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php 
+include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php"); 
+include_once(BACKEND."/queue.php");
+
+$queue = getFullQueue();
+?>
 <!doctype html>
 <html lang="en">
 <head>
     <title>Waiting Room Display</title>
     <link rel="stylesheet" type="text/css" href="/public/styles/display.css">
-    <style>
-    </style>
+<script>
+	function updateTime(){
+		let date = new Date();
+		let seconds = date.getSeconds();
+		let hour = date.getHours();
+		let minutes = date.getMinutes();
+
+		if(seconds < 10){
+			seconds = "0"+seconds;
+		}
+
+		if(hour > 12){
+			hour -= 12;
+		}
+		let str = hour+":"+minutes+":"+seconds;
+		document.getElementById("currentTime").innerHTML = str;
+	}
+	$(document).ready(function(){
+		setInterval(updateTime, 200);
+	})
+</script>
+
 </head>
 
 <body>
@@ -15,16 +40,17 @@
         <td>
             <table>
                 <tr id="current">
-                    <td style="font-size:1.5em">
+                    <td style="font-size:2.5em">
                         Now Serving<br/>
-                        <span id="serving">3</span>
+			<span id="serving"><?php echo getNextServed()?></span>
                     </td>
                 </tr>
                 <tr>
-                    <td id="wait" style="font-size:1.5em">
+                    <td id="wait" style="font-size:2.5em">
                         Estimated Wait<br/>
-                        <span id="serving">5:00</span><br/><br/>
-                        Next Number: 7
+			<span id="serving"><?php echo formatDuration(getTime())?></span><br/><br/>
+			<?php echo count($queue)?> people in queue<br/>
+			Next Number: <?php echo getNextAvailable()?>
                     </td>
                 </tr>
             </table>
@@ -32,16 +58,16 @@
         <td style="width:25%">
             <table>
                 <tr class="queueTitle">
-                    <td>Up Next</td>
+                    <td style="font-size:2em">Up Next</td>
                 </tr>
                 <tr class="queueItem">
-                    <td>4</td>
+		    <td><?php if(count($queue) >= 2) echo $queue[1]["position"]?></td>
                 </tr>
                 <tr class="queueItem">
-                    <td>5</td>
+		    <td><?php if(count($queue) >= 3) echo $queue[2]["position"]?></td>
                 </tr>
                 <tr class="queueItem" id="time">
-                    <td>12:00</td>
+                    <td id="currentTime">12:00</td>
                 </tr>
             </table>
         </td>

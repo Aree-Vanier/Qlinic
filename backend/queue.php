@@ -22,7 +22,6 @@ function getConfirmationLink($pos, $code){
 	return "https://qlinic.gregk.ca/queue/confirmation/$pos-$code";
 }
 
-
 /**
  * Get the contents of the queue
  * @return array contents of the queue
