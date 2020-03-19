@@ -26,9 +26,21 @@ $queue = getFullQueue();
 		let str = hour+":"+minutes+":"+seconds;
 		document.getElementById("currentTime").innerHTML = str;
 	}
+	
+	function refresh(){
+		$.ajax("/RIO/display", {success: function(result){
+			let newer = new DOMParser().parseFromString(result, "text/html");
+			document.getElementsByTagName("body")[0].innerHTML = newer.getElementsByTagName("body")[0].innerHTML;
+		
+		
+		}});
+	}
+
 	$(document).ready(function(){
-		setInterval(updateTime, 200);
+	//	setInterval(updateTime, 200);
+		setInterval(refresh, 500);
 	})
+	
 </script>
 
 </head>
@@ -67,7 +79,10 @@ $queue = getFullQueue();
 		    <td><?php if(count($queue) >= 3) echo $queue[2]["position"]?></td>
                 </tr>
                 <tr class="queueItem" id="time">
-                    <td id="currentTime">12:00</td>
+			<td id="currentTime">
+				<?php echo date("g:i:s") ?><br/>
+				<span style="font-size:0.35em"><?php echo date("l M dS Y")?></span>
+			</td>
                 </tr>
             </table>
         </td>
