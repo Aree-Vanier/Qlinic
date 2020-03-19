@@ -1,0 +1,52 @@
+html,body{
+    font-family:sans-serif;
+    height:100%;
+    overflow: hidden;
+}
+
+table{
+    height:100%;
+    width:100%;
+    border-spacing:10px;
+}
+
+td{
+    text-align:center;
+    font-size:25px;
+}
+
+#current{
+    height:40%;
+    background-color:whitesmoke;
+}
+
+#serving{
+    font-size:5em;
+}
+
+#wait{
+    background-color:#a5bff9;
+}
+
+#queue{
+    background-color:white;
+}
+
+.queueTitle{
+    background-color:#3a5491;
+    color:white;
+    height:2em;
+}
+
+.queueItem{
+    background-color:whitesmoke;
+}
+.queueItem td{
+    font-size: 4em;
+}
+
+#time{
+    height:30%;
+    background-color:#3a5491;
+    color:white;
+}
