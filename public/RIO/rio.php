@@ -31,6 +31,7 @@
 			$.post("/api/queue/delete", {code: code, position: position}, function (data, status) {
 				console.log(data);
 				updateQueue();
+				deleteDialog.hide();
 			});
 			
 		}
