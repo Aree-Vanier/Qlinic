@@ -4,14 +4,15 @@ include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 define("GET_QUEUE", "SELECT * FROM qlinic.queue ORDER BY position");
 define("GET_MAX", "SELECT MAX(position) FROM qlinic.queue");
 define("GET_MIN", "SELECT MIN(position) FROM qlinic.queue");
-define("ADD_CLIENT", "INSERT INTO qlinic.queue (position, code, name, email, phone, transac) VALUES (?,?,?,?,?,?)");
+define("REMOVE_CLIENT", "DELETE FROM qlinic.queue WHERE position=? AND code=?");
 define("GET_CLIENT", "SELECT * FROM qlinic.queue WHERE position=?");
 define("GET_BEFORE", "SELECT * FROM qlinic.queue WHERE position<?");
-define("REMOVE_CLIENT", "DELETE FROM qlinic.queue WHERE position=? AND code=?");
+define("ADD_CLIENT", "INSERT INTO qlinic.queue (code, name, email, phone, transac) VALUES (?,?,?,?,?)");
 define("ARCHIVE_CLIENT", "INSERT INTO qlinic.archive (joined, processed, wait, delta) VALUES (from_unixtime(?),from_unixtime(?),?,?)");
 define("LATEST_ARCHIVED", "SELECT * FROM qlinic.archive ORDER BY processed DESC limit 1");
 define("AVERAGE_DELTA", "select AVG(delta) from qlinic.archive where delta<?;");
 define('CHECK_CODE', "SELECT code FROM qlinic.queue WHERE code = ?");
+define("GET_POS", "SELECT position FROM qlinic.queue WHERE code = ?");
 
 /**
  * Get a link to the confirmation page
@@ -143,14 +144,14 @@ function getEntry($position){
 
 function checkCode($code){
 	$stmt=createStatement(CHECK_CODE);
-$stmt->bind_param("s", $code);
-$stmt->execute();
-if($stmt->num_rows ==0){
+	$stmt->bind_param("s", $code);
+	$stmt->execute();
+	if($stmt->num_rows ==0){
+		$stmt->free_result();
+		return true;
+	}	
 	$stmt->free_result();
-	return true;
-}	
-$stmt->free_result();
-return false;
+	return false;
 }
 
 /**
@@ -164,16 +165,25 @@ return false;
  * @return bool true if added successfully
  */
 function addToQueue($name, $email, $phone, $transac, &$pos=-1, &$code=''){
-    $stmt = createStatement(ADD_CLIENT);
-    $pos = getNextAvailable();
-$unique = false;
-while(!$unique){
-    $UUID = substr(MD5($name.$email), 0,5);
-    $UUID = strtoupper($UUID);
-	$unique = checkCode($UUID);
-}    
-$stmt->bind_param("isssss", $pos, $UUID,$name, $email, $phone, $transac);
+	global $conn;
+	
+	$unique = false;
+	while(!$unique){
+		$UUID = substr(MD5($name.$email), 0,5);
+		$UUID = strtoupper($UUID);
+		$unique = checkCode($UUID);
+	}    
+
+	$stmt = createStatement(ADD_CLIENT);
+	$stmt->bind_param("sssss", $UUID,$name, $email, $phone, $transac);
     $stmt->execute();
+
+	$posStmt = createStatement(GET_POS);
+	$posStmt->bind_param("s", $UUID);
+	$posStmt->execute();
+	$pos = $posStmt->get_result()->fetch_assoc()["position"];
+	$posStmt->free_result();
+
     if($stmt->error == ""){
         $code = $UUID;
         return true;
@@ -211,6 +221,7 @@ function delete($position, $code){
  * Remove the person at the top of the queue, and add them to the archive
 */
 function removeFromQueue(){
+	global $conn;
     $stmt = createStatement(ARCHIVE_CLIENT);
     $data = getEntry(getNextServed());
     $currentTime = time();
@@ -225,4 +236,8 @@ function removeFromQueue(){
     $stmt->execute();
     echo "ERROR: ".$stmt->error;
     delete($data["position"], $data["code"]);
+	//Reset increment
+	if(getQueueLength() == 0){
+		$conn->query("ALTER TABLE qlinic.queue AUTO_INCREMENT=1");
+	}
 }

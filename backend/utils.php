@@ -81,13 +81,19 @@
     function formatDuration($seconds, $includeSeconds=false){
 	    $minutes = 0;
 	    $hours = 0;
-	    if($seconds > 60){
-	    	$minutes = (int) $seconds/60;
-		$seconds = $seconds % 60;
+	    if($seconds >= 60){
+	    	$minutes = (int)($seconds/60);
+			$seconds = $seconds % 60;
+			if($seconds < 10){
+				$seconds = "0".$seconds;
+			}	
 	    }
-	    if($minutes > 60){
-	    	$hours = (int) $minutes/60;
-		$minutes = $minutes % 60;
+	    if($minutes >= 60){
+	    	$hours = (int)($minutes/60);
+			$minutes = $minutes % 60;
+			if($minutes < 10){
+				$minutes= "0".$minutes;
+			}	
 	    }
 
 	    if($includeSeconds){
