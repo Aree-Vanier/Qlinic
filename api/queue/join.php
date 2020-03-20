@@ -38,5 +38,5 @@ if(addToQueue($name, $email, $phone, $transacID, $pos, $code)){
 		sendSMS("You are #$pos in queue.\nYou can review your confirmation at: $confirmation", $phone);
 	}
 } else {
-    echo "ERROR:UNKOWN";
+    echo "ERROR:$code";
 }
