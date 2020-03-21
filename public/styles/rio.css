@@ -134,3 +134,10 @@ section#appointments{
     border:1px solid black;
     height:100%;
 }
+
+#form{
+	border:none;
+	width:25em;
+	height:32em;
+
+}

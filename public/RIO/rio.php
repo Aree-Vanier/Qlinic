@@ -157,6 +157,17 @@
             });
             return false;
         }
+
+		let bookAppointmentDialog = new Dialog({
+			title: "Book Appointment",
+			content: "<iframe src='/appointments/form' id='form' seamless></iframe>",
+			buttons: [
+				{
+					text:"Cancel",
+					onclick:"bookAppointmentDialog.hide()"
+				}
+			]
+		});
     </script>
 </head>
 
@@ -197,7 +208,7 @@
         <div>
             <h1 style="margin-bottom:0">Appointments</h1>
             <div style="margin:0.25em 0">
-                <button>Book</button>
+                <button onclick="bookAppointmentDialog.show()">Book</button>
                 <button>Find</button>
             </div>
         </div>
