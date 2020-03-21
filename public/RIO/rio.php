@@ -19,7 +19,11 @@
     <link rel="stylesheet" type="text/css" href="/public/styles/rio.css"/>
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
+	<script src="/public/scripts/forms.js"></script>
     <script>
+
+
+
 		function deleteFromQueue() {
 			let code = document.getElementById("queueSelect").value;
 			let position = document.querySelector("#"+code+" .scrollInfo.position").innerHTML
