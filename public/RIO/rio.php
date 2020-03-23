@@ -1,4 +1,4 @@
-<?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
 <?php
 	session_start();
 ?>
@@ -14,12 +14,16 @@
 <head>
 	
     <title>Template Page</title>
-    <?php include(META) ?>
-    <?php include(BACKEND . "/queue.php") ?>
+    <?php include_once(META) ?>
+    <?php include_once(BACKEND . "/queue.php") ?>
     <link rel="stylesheet" type="text/css" href="/public/styles/rio.css"/>
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
+	<script src="/public/scripts/forms.js"></script>
     <script>
+
+
+
 		function deleteFromQueue() {
 			let code = document.getElementById("queueSelect").value;
 			let position = document.querySelector("#"+code+" .scrollInfo.position").innerHTML
@@ -153,6 +157,55 @@
             });
             return false;
         }
+
+		let bookAppointmentDialog = new Dialog({
+			title: "Book Appointment",
+			content: "<iframe src='/appointments/form' id='form' seamless></iframe>",
+			buttons: [
+				{
+					text:"Cancel",
+					onclick:"bookAppointmentDialog.hide()"
+				}
+			]
+		});
+
+        function updateAgenda(date=null){
+            //If date is null use existing date
+            if(date == null){
+                date = document.getElementById("agendaDate").value;
+            }
+
+            $.ajax(`agenda?date=${date}`, {success: function(result){
+                    let selected = document.getElementById("agendaSelect").value;
+                    document.getElementById("agenda").innerHTML=result;
+                    new SimpleBar(document.getElementById("agendaScroller"), {
+                        timeout:750,
+                    });
+                    try {
+                        document.getElementById(selected).classList.add("selected");
+                    }catch (e) {
+                        console.log("No item selected");
+                    }
+
+                    initScrollers();
+                }})
+        }
+
+        function updateCalendar(){
+            let selected = document.getElementById("calendarSelected").value;
+            $.ajax(`calendar?date=${selected}`, {success: function(result){
+                document.getElementById("calendar").innerHTML=result;
+                try {
+                    document.getElementById(selected).classList.add("selected");
+                }catch (e) {
+                    console.log("No item selected");
+                }
+            }})
+        }
+
+        setInterval(updateCalendar, 120000);
+        setInterval(updateAgenda, 120000);
+
     </script>
 </head>
 
@@ -193,67 +246,17 @@
         <div>
             <h1 style="margin-bottom:0">Appointments</h1>
             <div style="margin:0.25em 0">
-                <button>Book</button>
+                <button onclick="bookAppointmentDialog.show()">Book</button>
                 <button>Find</button>
             </div>
         </div>
-        <div class="agenda">
-            <h2>Today</h2>
-            <div class="scroller">
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Robert Alberts</span>
-                    <span class="scrollInfo">10:30</span><br/>
-                    <span class="scrollTitle">CJZFM</span>
-                    <span class="scrollInfo">Dr. Brown</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Nancy Kennelly</span>
-                    <span class="scrollInfo">10:30</span><br/>
-                    <span class="scrollTitle">XBGFZ</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Roger Libby</span>
-                    <span class="scrollInfo">11:00</span><br/>
-                    <span class="scrollTitle">HSOLK</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Elias Trent</span>
-                    <span class="scrollInfo">11:30</span><br/>
-                    <span class="scrollTitle">VVVGV</span>
-                    <span class="scrollInfo">Dr. Brown</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Alice Grant</span>
-                    <span class="scrollInfo">12:00</span><br/>
-                    <span class="scrollTitle">KXPEF</span>
-                    <span class="scrollInfo">Dr. Brown</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Athur Jones</span>
-                    <span class="scrollInfo">12:00</span><br/>
-                    <span class="scrollTitle">UXLEB</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
-            </div>
+        <div class="agenda" id="agenda">
+            <?php include("agenda.php");?>
         </div>
-        <div class="calendar">
-            <h2>This Month</h2>
-            <div class="week">
-                <div class="day">17-Mon</div>
-                <div class="day">18-Tue</div>
-                <div class="day">19-Wed</div>
-                <div class="day">20-Thu</div>
-                <div class="day">21-Fri</div>
-            </div>
-            <div class="week">
-                <div class="day">24-Mon</div>
-                <div class="day">25-Tue</div>
-                <div class="day">26-Wed</div>
-                <div class="day">27-Thu</div>
-                <div class="day">28-Fri</div>
-            </div>
+        <div class="calendar" id="calendar">
+        <?php
+            include "calendar.php";
+        ?>
         </div>
     </section>
 </div>

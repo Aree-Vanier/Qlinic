@@ -93,3 +93,4 @@ fabric.properties
 .cred.php
 *.swp
 *.vim
+*.sess

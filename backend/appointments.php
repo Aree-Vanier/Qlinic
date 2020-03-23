@@ -5,13 +5,14 @@ include $_SERVER["DOCUMENT_ROOT"] . "/backend/config.php";
 define("GET_DOCS", "SELECT ID,server FROM qlinic.available");
 define("GET_DOC_INFO", "SELECT * FROM qlinic.available WHERE ID = ?");
 define("GET_ALL_BOOKED", "SELECT * from qlinic.booked ORDER BY date");
-define("GET_BY_DATE", "SELECT (UNIX_TIMESTAMP(date)+time) FROM qlinic.booked WHERE date = ?");
-define("GET_BY_DATE_AND_SERVER", "SELECT (UNIX_TIMESTAMP(date)+time) FROM qlinic.booked WHERE date = ? AND server = ?");
+define("GET_BY_DATE", "SELECT (UNIX_TIMESTAMP(date)+time) FROM qlinic.booked WHERE date = ? ORDER BY time");
+define("GET_BY_DATE_AND_SERVER", "SELECT (UNIX_TIMESTAMP(date)+time) FROM qlinic.booked WHERE date = ? AND server = ? ORDER BY time");
 define("GET_ALL_IN_RANGE", "SELECT (UNIX_TIMESTAMP(date)+time),server,length,code FROM qlinic.booked WHERE date>? AND date<?");
 define("BOOK_APPOINTMENT", "INSERT INTO qlinic.booked (firstname, lastname, server, date, time, length, reason, email, phone, code, transac) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 define("GET_APPOINTMENT_DETAILS", "SELECT * from qlinic.booked WHERE code = ?");
 define("REMOVE_APPOINTMENT", "DELETE FROM qlinic.booked WHERE code = ?");
-define("CHECK_CODE", "SELECT code FROM qlinic.booked WHERE code=?");
+define("CHECK_APPOINTMENT_CODE", "SELECT code FROM qlinic.booked WHERE code=?");
+define("GET_AGENDA_DETAILS", "SELECT * FROM qlinic.booked WHERE date = ? ORDER BY time");
 
 function getDateString($timestamp){
     if(!is_numeric($timestamp)){
@@ -45,6 +46,21 @@ function getAppointmentDetails($code){
     $result = $stmt->get_result()->fetch_assoc();
     $stmt->free_result();
     return $result;
+}
+
+function getAgendaDetails($date){
+    $date = getDateString($date);
+    $stmt=createStatement(GET_AGENDA_DETAILS);
+    $stmt->bind_param("s", $date);
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $out = [];
+    while($row = $result->fetch_assoc()){
+        array_push($out, $row);
+    }
+    $stmt->free_result();
+    return $out;
 }
 
 /**
@@ -186,16 +202,16 @@ function getAvailable($date){
 }
 
 
-function checkCode($code){
-	$stmt=createStatement(CHECK_CODE);
-$stmt->bind_param("s", $code);
-$stmt->execute();
-if($stmt->num_rows ==0){
-	$stmt->free_result();
-	return true;
-}	
-$stmt->free_result();
-return false;
+function checkAppointmentCode($code){
+	$stmt=createStatement(CHECK_APPOINTMENT_CODE);
+    $stmt->bind_param("s", $code);
+    $stmt->execute();
+    if($stmt->num_rows ==0){
+        $stmt->free_result();
+        return true;
+    }
+    $stmt->free_result();
+    return false;
 }
 
 function book($firstname, $lastname, $server, $date, $time, $length, $reason, $email, $phone, $transac, &$code){
@@ -204,7 +220,7 @@ function book($firstname, $lastname, $server, $date, $time, $length, $reason, $e
 	$unique = false;
 	while(!$unique){
 		$code = substr(MD5($firstname.$lastname.$time), 0,5);
-		$unique=checkCode($code);
+		$unique=checkAppointmentCode($code);
 	}
     $stmt->bind_param("ssisiisssss", $firstname, $lastname, $server, $date, $time, $length, $reason, $email, $phone, $code, $transac);
     $stmt->execute();
