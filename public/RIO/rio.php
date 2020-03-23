@@ -1,4 +1,4 @@
-<?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
 <?php
 	session_start();
 ?>
@@ -14,8 +14,8 @@
 <head>
 	
     <title>Template Page</title>
-    <?php include(META) ?>
-    <?php include(BACKEND . "/queue.php") ?>
+    <?php include_once(META) ?>
+    <?php include_once(BACKEND . "/queue.php") ?>
     <link rel="stylesheet" type="text/css" href="/public/styles/rio.css"/>
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
@@ -198,48 +198,30 @@
         </div>
         <div class="agenda">
             <h2>Today</h2>
+            <?php $spots = getBookedOnDate(); ?>
             <div class="scroller">
                 <div class="scrollItem" id="">
-                    <span class="scrollTitle">Robert Alberts</span>
-                    <span class="scrollInfo">10:30</span><br/>
-                    <span class="scrollTitle">CJZFM</span>
-                    <span class="scrollInfo">Dr. Brown</span>
+                    <span class="scrollTitle"></span>
+                    <span class="scrollInfo"></span><br/>
+                    <span class="scrollTitle"></span>
+                    <span class="scrollInfo">Dr. Br</span>
                 </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Nancy Kennelly</span>
-                    <span class="scrollInfo">10:30</span><br/>
-                    <span class="scrollTitle">XBGFZ</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Roger Libby</span>
-                    <span class="scrollInfo">11:00</span><br/>
-                    <span class="scrollTitle">HSOLK</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Elias Trent</span>
-                    <span class="scrollInfo">11:30</span><br/>
-                    <span class="scrollTitle">VVVGV</span>
-                    <span class="scrollInfo">Dr. Brown</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Alice Grant</span>
-                    <span class="scrollInfo">12:00</span><br/>
-                    <span class="scrollTitle">KXPEF</span>
-                    <span class="scrollInfo">Dr. Brown</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Athur Jones</span>
-                    <span class="scrollInfo">12:00</span><br/>
-                    <span class="scrollTitle">UXLEB</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
+                <script>
+                let xhttp = new XMLHttpRequest();
+                function check_date(id)
+                {
+                    let date = id;
+                    $.post("/api/appointments/GetAppointmentOnDate.php", {date: date}, function (data, status) {
+				    console.log(data);
+			        });
+                }
+                </script>
+
             </div>
         </div>
         <div class="calendar">
         <?php
-            include "/calendar.php";
+            include "calendar.php";
         ?>
         </div>
     </section>

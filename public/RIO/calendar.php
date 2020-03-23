@@ -1,5 +1,5 @@
-<?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
-<?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/appointments.php");
+<?php include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/appointments.php");
 //$booked = FUNCTION();
 ?>
 <style>
@@ -51,7 +51,9 @@
         echo "<td id='";
         echo $x;
         echo "'>";
-        echo "<div style='border-bottom: 1px solid black'>";
+        echo "<div style='border-bottom: 1px solid black' id='";
+        echo $start + $x*24*60*60;
+        echo "' onClick='check_date(this.id)'>";
         echo "<b>";
         echo (date("d/m/Y",$start+$x*24*60*60));
         echo "</b>";
@@ -60,13 +62,13 @@
         //Add loop for things on that date
         //echo "running"; 
         $spots = getBookedOnDate($start + $x*24*60*60);
-        foreach($spots as $appt){
-            echo "{<br/>";
-            foreach($appt as $key=>$value){
-                echo "[".$key."]=>".$value."<br/>";
-            }
-            echo "}<br/>";
-        }
+        //foreach($spots as $appt){
+        //    echo "{<br/>";
+        //    foreach($appt as $key=>$value){
+        //        echo "[".$key."]=>".$value."<br/>";
+        //    }
+        //    echo "}<br/>";
+        //}
 
         //need to find a way to put spots in the correct order
         //$len = sizeof($spots);
