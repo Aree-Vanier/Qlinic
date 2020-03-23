@@ -23,143 +23,23 @@ if(isset($_GET["date"])){
     <input id="agendaDate" type="hidden" value="<?php echo $date ?>">
     <div class="scroller" id="agendaScroller" style="height: 100%;">
         <input class="scrollerInput" id="agendaSelect" type="hidden" value="">
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Robert Alberts</span>
-            <span class="scrollInfo">10:30</span><br/>
-            <span class="scrollTitle">CJZFM</span>
-            <span class="scrollInfo">Dr. Brown</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Nancy Kennelly</span>
-            <span class="scrollInfo">10:30</span><br/>
-            <span class="scrollTitle">XBGFZ</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Roger Libby</span>
-            <span class="scrollInfo">11:00</span><br/>
-            <span class="scrollTitle">HSOLK</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Elias Trent</span>
-            <span class="scrollInfo">11:30</span><br/>
-            <span class="scrollTitle">VVVGV</span>
-            <span class="scrollInfo">Dr. Brown</span>
-        </div>
-        <div class="scrollItem" id="KXPEF">
-            <span class="scrollTitle">Alice Grant</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">KXPEF</span>
-            <span class="scrollInfo">Dr. Brown</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
-        <div class="scrollItem" id="">
-            <span class="scrollTitle">Athur Jones</span>
-            <span class="scrollInfo">12:00</span><br/>
-            <span class="scrollTitle">UXLEB</span>
-            <span class="scrollInfo">Dr. Jones</span>
-        </div>
+        <?php
+            $booked = getAgendaDetails($date);
+            foreach($booked as $appt){
+                $code = $appt["code"];
+                $name = $appt["firstname"]." ".$appt["lastname"];
+                $server = getServers()[$appt["server"]];
+                $time = date("g:i A", getDateTimestamp($appt["date"])+$appt["time"]);
+                echo "
+                    <div class=\"scrollItem\" id=\"appt-$code\">
+                        <span class=\"scrollTitle\">$name</span>
+                        <span class=\"scrollInfo\">$time</span><br/>
+                        <span class=\"scrollTitle\">$code</span>
+                        <span class=\"scrollInfo\">$server</span>
+                    </div>
+                ";
+
+            }
+        ?>
     </div>
 </div>

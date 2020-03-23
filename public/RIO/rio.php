@@ -190,7 +190,7 @@
                     initScrollers();
                 }})
         }
-
+        setInterval(updateAgenda, 120000);
 
     </script>
 </head>

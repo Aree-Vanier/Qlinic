@@ -12,6 +12,7 @@ define("BOOK_APPOINTMENT", "INSERT INTO qlinic.booked (firstname, lastname, serv
 define("GET_APPOINTMENT_DETAILS", "SELECT * from qlinic.booked WHERE code = ?");
 define("REMOVE_APPOINTMENT", "DELETE FROM qlinic.booked WHERE code = ?");
 define("CHECK_APPOINTMENT_CODE", "SELECT code FROM qlinic.booked WHERE code=?");
+define("GET_AGENDA_DETAILS", "SELECT * FROM qlinic.booked WHERE date = ? ORDER BY time");
 
 function getDateString($timestamp){
     if(!is_numeric($timestamp)){
@@ -45,6 +46,21 @@ function getAppointmentDetails($code){
     $result = $stmt->get_result()->fetch_assoc();
     $stmt->free_result();
     return $result;
+}
+
+function getAgendaDetails($date){
+    $date = getDateString($date);
+    $stmt=createStatement(GET_AGENDA_DETAILS);
+    $stmt->bind_param("s", $date);
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $out = [];
+    while($row = $result->fetch_assoc()){
+        array_push($out, $row);
+    }
+    $stmt->free_result();
+    return $out;
 }
 
 /**
