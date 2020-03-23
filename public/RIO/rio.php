@@ -190,6 +190,20 @@
                     initScrollers();
                 }})
         }
+
+        function updateCalendar(){
+            let selected = document.getElementById("calendarSelected").value;
+            $.ajax(`calendar?date=${selected}`, {success: function(result){
+                document.getElementById("calendar").innerHTML=result;
+                try {
+                    document.getElementById(selected).classList.add("selected");
+                }catch (e) {
+                    console.log("No item selected");
+                }
+            }})
+        }
+
+        setInterval(updateCalendar, 120000);
         setInterval(updateAgenda, 120000);
 
     </script>
@@ -239,7 +253,7 @@
         <div class="agenda" id="agenda">
             <?php include("agenda.php");?>
         </div>
-        <div class="calendar">
+        <div class="calendar" id="calendar">
         <?php
             include "calendar.php";
         ?>

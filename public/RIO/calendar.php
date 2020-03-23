@@ -4,6 +4,10 @@
 
 $weekStart = strtotime("last sunday midnight", time());
 $today = getDateTimestamp(time());
+$selected = $today;
+if(isset($_GET["date"])){
+    $selected = $_GET["date"];
+}
 ?>
 <script>
     function onCalendarClick(element){
@@ -11,12 +15,14 @@ $today = getDateTimestamp(time());
         document.getElementById("calendarSelected").value = element.id;
         document.getElementById(old).classList.remove("selected");
         element.classList.add("selected");
+
+        updateAgenda(element.id);
     }
 
 </script>
 
 <h2>Upcoming:</h2>
-<input id="calendarSelected" type="hidden" value="<?php echo $today?>">
+<input id="calendarSelected" type="hidden" value="<?php echo $selected?>">
 <table style="width:100%; height:100%">
     <?php
         define("WEEK_LENGTH", 3600*24*7);
@@ -35,6 +41,8 @@ $today = getDateTimestamp(time());
                 $class = "";
                 if($date == $today){
                     $dateString = "<strong>$dateString</strong>";
+                }
+                if($date == $selected){
                     $class = "class='selected'";
                 }
                 echo "<td onclick='onCalendarClick(this)' id='$date' $class> 
