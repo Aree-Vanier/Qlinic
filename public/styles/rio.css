@@ -119,20 +119,34 @@ section#appointments{
     border:1px solid black;
 }
 
+.calendar table{
+    border-collapse: collapse;
+    user-select: none;
+}
+.calendar td{
+    border:2px solid black;
+    vertical-align: top;
+    padding-top:0.4em;
+    cursor: pointer;
+}
+
 .calendar h2{
     margin:0;
     margin-top:-1.1em;
 }
 
-.calendar>.week{
+.calendar .date{
+    margin-top:5px;
+    border-bottom:1px solid black;
     width:100%;
-    height:50%;
-    display:flex;
 }
-.calendar>.week>.day{
-    width:20%;
-    border:1px solid black;
-    height:100%;
+
+.calendar td:hover{
+    background-color: #cfcfcfff;
+}
+
+.calendar .selected{
+    background-color: #9eecffff;
 }
 
 #form{
