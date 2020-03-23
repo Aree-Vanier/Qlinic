@@ -238,24 +238,11 @@
         </div>
         <div class="agenda" id="agenda">
             <?php include("agenda.php");?>
-
         </div>
         <div class="calendar">
-            <h2>This Month</h2>
-            <div class="week">
-                <div class="day">17-Mon</div>
-                <div class="day">18-Tue</div>
-                <div class="day">19-Wed</div>
-                <div class="day">20-Thu</div>
-                <div class="day">21-Fri</div>
-            </div>
-            <div class="week">
-                <div class="day">24-Mon</div>
-                <div class="day">25-Tue</div>
-                <div class="day">26-Wed</div>
-                <div class="day">27-Thu</div>
-                <div class="day">28-Fri</div>
-            </div>
+        <?php
+            include "calendar.php";
+        ?>
         </div>
     </section>
 </div>
