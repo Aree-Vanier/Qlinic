@@ -1,4 +1,4 @@
-<?php include($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
+<?php include_once($_SERVER["DOCUMENT_ROOT"] . "/backend/utils.php") ?>
 <?php
 	session_start();
 ?>
@@ -14,8 +14,8 @@
 <head>
 	
     <title>Template Page</title>
-    <?php include(META) ?>
-    <?php include(BACKEND . "/queue.php") ?>
+    <?php include_once(META) ?>
+    <?php include_once(BACKEND . "/queue.php") ?>
     <link rel="stylesheet" type="text/css" href="/public/styles/rio.css"/>
     <script src="/public/scripts/scroller.js"></script>
     <script src="/public/scripts/dialog.js"></script>
@@ -168,6 +168,30 @@
 				}
 			]
 		});
+
+        function updateAgenda(date=null){
+            //If date is null use existing date
+            if(date == null){
+                date = document.getElementById("agendaDate").value;
+            }
+
+            $.ajax(`agenda?date=${date}`, {success: function(result){
+                    let selected = document.getElementById("agendaSelect").value;
+                    document.getElementById("agenda").innerHTML=result;
+                    new SimpleBar(document.getElementById("agendaScroller"), {
+                        timeout:750,
+                    });
+                    try {
+                        document.getElementById(selected).classList.add("selected");
+                    }catch (e) {
+                        console.log("No item selected");
+                    }
+
+                    initScrollers();
+                }})
+        }
+
+
     </script>
 </head>
 
@@ -212,46 +236,9 @@
                 <button>Find</button>
             </div>
         </div>
-        <div class="agenda">
-            <h2>Today</h2>
-            <div class="scroller">
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Robert Alberts</span>
-                    <span class="scrollInfo">10:30</span><br/>
-                    <span class="scrollTitle">CJZFM</span>
-                    <span class="scrollInfo">Dr. Brown</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Nancy Kennelly</span>
-                    <span class="scrollInfo">10:30</span><br/>
-                    <span class="scrollTitle">XBGFZ</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Roger Libby</span>
-                    <span class="scrollInfo">11:00</span><br/>
-                    <span class="scrollTitle">HSOLK</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Elias Trent</span>
-                    <span class="scrollInfo">11:30</span><br/>
-                    <span class="scrollTitle">VVVGV</span>
-                    <span class="scrollInfo">Dr. Brown</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Alice Grant</span>
-                    <span class="scrollInfo">12:00</span><br/>
-                    <span class="scrollTitle">KXPEF</span>
-                    <span class="scrollInfo">Dr. Brown</span>
-                </div>
-                <div class="scrollItem" id="">
-                    <span class="scrollTitle">Athur Jones</span>
-                    <span class="scrollInfo">12:00</span><br/>
-                    <span class="scrollTitle">UXLEB</span>
-                    <span class="scrollInfo">Dr. Jones</span>
-                </div>
-            </div>
+        <div class="agenda" id="agenda">
+            <?php include("agenda.php");?>
+
         </div>
         <div class="calendar">
             <h2>This Month</h2>

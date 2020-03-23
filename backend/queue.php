@@ -143,7 +143,7 @@ function getEntry($position){
 
 
 function checkCode($code){
-	$stmt=createStatement(CHECK_CODE);
+	$stmt=createStatement(CHECK_APPOINTMENT_CODE);
 	$stmt->bind_param("s", $code);
 	$stmt->execute();
 	if($stmt->num_rows ==0){
@@ -171,7 +171,7 @@ function addToQueue($name, $email, $phone, $transac, &$pos=-1, &$code=''){
 	while(!$unique){
 		$UUID = substr(MD5($name.$email), 0,5);
 		$UUID = strtoupper($UUID);
-		$unique = checkCode($UUID);
+		$unique = checkAppointmentCode($UUID);
 	}    
 
 	$stmt = createStatement(ADD_CLIENT);
