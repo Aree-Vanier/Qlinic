@@ -44,7 +44,7 @@ header h1{
 <body>
     <header style="text-align: center;">
         <img src="/images/logo.svg">
-        <h1 style="color:white">You're in queue!</h1>
+        <h1 style="color:black">You're in queue!</h1>
     </header>
     <section style="text-align: center;">
         <h2>Your number</h2>
