@@ -206,6 +206,39 @@
         setInterval(updateCalendar, 120000);
         setInterval(updateAgenda, 120000);
 
+        let infoDialog = new Dialog({
+            title:`Appointment NULL`,
+            content: "Content",//<iframe src='/appointments/form' id='form' seamless></iframe>",
+            buttons:[
+                {
+                    text:"Close",
+                    onclick:"infoDialog.hide()"
+                }
+            ]
+
+        });
+
+        function showAppointmentInfo(element){
+            let code = element.id.split("-")[1];
+            infoDialog.title = "Appointment "+code;
+
+            $.post("/api/appointments/getAppointmentDetails", {code}, function(data, status){
+                let appointment = JSON.parse(data);
+                console.log(appointment);
+                infoDialog.content = `
+                    <ul style='text-decoration:none'>
+                        <li>Client: ${appointment.firstname} ${appointment.lastname}</li>
+                        <li>Doctor: ${appointment.serverName}</li>
+                        <li>Date: ${appointment.date}</li>
+                        <li>Time: ${appointment.timeString}</li>
+                        <li>Reason: ${appointment.reason}</li>
+                    </ul>
+                    `;
+                infoDialog.rebuild(infoDialog);
+                infoDialog.show();
+            });
+
+        }
     </script>
 </head>
 
