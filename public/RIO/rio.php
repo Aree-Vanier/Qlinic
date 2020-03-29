@@ -206,6 +206,24 @@
         setInterval(updateCalendar, 120000);
         setInterval(updateAgenda, 120000);
 
+        var selectedAppointment = "";
+
+        let cancelConfirmDialog = new Dialog({
+            title:"Confirm Appointment Cancellation",
+            content: "Appointment cancellation cannot be undone, are you sure you wish to continue?",
+            buttons:[
+                {
+                    text:"Confirm",
+                    onclick:"cancelAppointment()"
+                },
+                {
+                    text:"Cancel",
+                    onclick:"cancelConfirmDialog.hide()"
+                }
+            ]
+        });
+
+
         let infoDialog = new Dialog({
             title:`Appointment NULL`,
             content: "Content",//<iframe src='/appointments/form' id='form' seamless></iframe>",
@@ -213,6 +231,11 @@
                 {
                     text:"Close",
                     onclick:"infoDialog.hide()"
+                },
+                {
+                    text:"Cancel Appointment",
+                    onclick:"cancelConfirmDialog.rebuild(cancelConfirmDialog); cancelConfirmDialog.show()",
+                    extra:"style='float:left'"
                 }
             ]
 
@@ -220,6 +243,7 @@
 
         function showAppointmentInfo(element){
             let code = element.id.split("-")[1];
+            selectedAppointment = code;
             infoDialog.title = "Appointment "+code;
 
             $.post("/api/appointments/getAppointmentDetails", {code}, function(data, status){
@@ -237,7 +261,15 @@
                 infoDialog.rebuild(infoDialog);
                 infoDialog.show();
             });
+        }
 
+        function cancelAppointment(){
+            $.post("/api/appointments/cancel", {code:selectedAppointment}, function(data, status){
+                cancelConfirmDialog.hide();
+                infoDialog.hide();
+                updateCalendar();
+                updateAgenda();
+            });
         }
     </script>
 </head>
