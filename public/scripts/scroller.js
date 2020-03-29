@@ -20,20 +20,22 @@ function initScrollers() {
                         scroller.input.value = item.id;
                     }
                 }
-                //Add onclick to scroll items
-                item.onclick = function () {
-                    if (scroller.selected === item)
-                        return;
-                    if(scroller.selected !== undefined) {
-                        console.log(scroller.selected);
-                        scroller.selected.classList.remove("selected");
-                    }
-                    item.classList.add("selected");
-                    scroller.selected = item;
-                    if(scroller.input != null){
-                        scroller.input.value = item.id;
-                    }
-                };
+                //Add onclick to scroll items, if one exists then do not override
+                if(item.onclick==="") {
+                    item.onclick = function () {
+                        if (scroller.selected === item)
+                            return;
+                        if (scroller.selected !== undefined) {
+                            console.log(scroller.selected);
+                            scroller.selected.classList.remove("selected");
+                        }
+                        item.classList.add("selected");
+                        scroller.selected = item;
+                        if (scroller.input != null) {
+                            scroller.input.value = item.id;
+                        }
+                    };
+                }
             }
 
             if (item.classList.contains("scrollerInput")) {
