@@ -31,7 +31,7 @@ if(isset($_GET["date"])){
                 $server = getServers()[$appt["server"]];
                 $time = date("g:i A", getDateTimestamp($appt["date"])+$appt["time"]);
                 echo "
-                    <div class=\"scrollItem\" id=\"appt-$code\" onclick=\"showAppointmentInfo(this)\">
+                    <div class=\"scrollItem noclick\" id=\"appt-$code\" onclick=\"showAppointmentInfo(this)\">
                         <span class=\"scrollTitle\">$name</span>
                         <span class=\"scrollInfo\">$time</span><br/>
                         <span class=\"scrollTitle\">$code</span>

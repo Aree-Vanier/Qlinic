@@ -21,7 +21,7 @@ function initScrollers() {
                     }
                 }
                 //Add onclick to scroll items, if one exists then do not override
-                if(item.onclick==="") {
+                if(!item.classList.contains("noclick")) {
                     item.onclick = function () {
                         if (scroller.selected === item)
                             return;
